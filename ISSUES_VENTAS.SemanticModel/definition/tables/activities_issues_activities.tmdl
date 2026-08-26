@@ -1,0 +1,196 @@
+table activities_issues_activities
+	lineageTag: a660a2e5-f1c8-4550-948f-8a5efb95e22f
+
+	column activity_id
+		dataType: string
+		lineageTag: 3cae8979-a0fd-4ee1-9fe3-ec60ef6677ea
+		summarizeBy: none
+		sourceColumn: activity_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_account_id
+		dataType: string
+		lineageTag: 37911b5a-fde3-4765-b404-b5cf3eba5d77
+		summarizeBy: none
+		sourceColumn: bim360_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_project_id
+		dataType: string
+		lineageTag: 4002e0f3-ad6d-43ec-8e33-c999f5ea4c4b
+		summarizeBy: none
+		sourceColumn: bim360_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column activity_verb
+		dataType: string
+		lineageTag: 18474e2f-bbc8-4300-a90c-4c0a4541ae92
+		summarizeBy: none
+		sourceColumn: activity_verb
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: 89d6a1e6-34d0-4628-9387-6c608983f531
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: b451ad5e-677b-4be3-9ead-5837fd37192c
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_answer
+		dataType: string
+		lineageTag: 4a30cf8a-6f6d-47a8-b8b0-7db4e4137ca7
+		summarizeBy: none
+		sourceColumn: object_answer
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_assigned_to
+		dataType: string
+		lineageTag: 215a6c9b-6e85-4004-ba3d-7157871d858b
+		summarizeBy: none
+		sourceColumn: object_assigned_to
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_assigned_to_type
+		dataType: string
+		lineageTag: ac60fe58-e56a-4d9e-a817-29814710221d
+		summarizeBy: none
+		sourceColumn: object_assigned_to_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_attachment_attachment_type
+		dataType: string
+		lineageTag: 217b659d-23a2-4765-b029-8b541abb7633
+		summarizeBy: none
+		sourceColumn: object_attachment_attachment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_attachment_display_name
+		dataType: string
+		lineageTag: 5d76a0b9-f931-4b4a-95e8-cfee208db441
+		summarizeBy: none
+		sourceColumn: object_attachment_display_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_attachment_id
+		dataType: string
+		lineageTag: 18bc4fbf-7ca1-4ca9-85c6-616e50a73952
+		summarizeBy: none
+		sourceColumn: object_attachment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_attachment_name
+		dataType: string
+		lineageTag: 239d7739-2dff-461a-8b44-0acbfd4d0510
+		summarizeBy: none
+		sourceColumn: object_attachment_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_attachment_urn
+		dataType: string
+		lineageTag: f56856e2-2ebd-466a-a575-c9a42314d6d5
+		summarizeBy: none
+		sourceColumn: object_attachment_urn
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_attachment_urn_type
+		dataType: string
+		lineageTag: 2d247b3f-77c8-4b1a-b602-3634e1e0c5fe
+		summarizeBy: none
+		sourceColumn: object_attachment_urn_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_comment_id
+		dataType: string
+		lineageTag: 144d19ca-877e-453c-8ce1-211709f5cc30
+		summarizeBy: none
+		sourceColumn: object_comment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_created_at
+		dataType: string
+		lineageTag: 97c8c953-cedb-4a2f-b8c1-3ddf2064953b
+		summarizeBy: none
+		sourceColumn: object_created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_display_name
+		dataType: string
+		lineageTag: faa589cb-6fa2-465e-87a8-7d0cbabba847
+		summarizeBy: none
+		sourceColumn: object_display_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_id
+		dataType: string
+		lineageTag: 0e711de1-88d5-4daa-ac4a-a2b205162950
+		summarizeBy: none
+		sourceColumn: object_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_status
+		dataType: string
+		lineageTag: da00c564-2069-4f69-9acd-c064d166c81a
+		summarizeBy: none
+		sourceColumn: object_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_title
+		dataType: string
+		lineageTag: 82931451-bd92-4152-bc20-3783bf7e81e9
+		summarizeBy: none
+		sourceColumn: object_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column object_updated_at
+		dataType: string
+		lineageTag: 953af532-e10b-465c-993c-2e2953345004
+		summarizeBy: none
+		sourceColumn: object_updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition activities_issues_activities = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    Source = AutodeskConstructionCloud.Feed("United States"),
+				    #"17fefe95-3b69-4d44-bb94-0cbec2173aea" = Source{[Key="17fefe95-3b69-4d44-bb94-0cbec2173aea"]}[Data],
+				    #"Project Extracts" = #"17fefe95-3b69-4d44-bb94-0cbec2173aea"{[Name="Project Extracts"]}[Data],
+				    #"5f587011-eb8e-4072-b4df-f16aee3915aa" = #"Project Extracts"{[Key="5f587011-eb8e-4072-b4df-f16aee3915aa"]}[Data],
+				    activities_issues_activities1 = #"5f587011-eb8e-4072-b4df-f16aee3915aa"{[Name="activities_issues_activities"]}[Data]
+				in
+				    activities_issues_activities1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

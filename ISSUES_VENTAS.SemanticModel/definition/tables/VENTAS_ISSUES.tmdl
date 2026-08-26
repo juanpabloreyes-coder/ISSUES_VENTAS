@@ -1,0 +1,395 @@
+table VENTAS_ISSUES
+	lineageTag: 7b86d36d-1eb5-4b7a-a211-31198abdd9c9
+
+	column ID
+		dataType: string
+		lineageTag: 3fb541b0-1f66-49e3-9581-925b08c577c5
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 6ed498ee-4017-48b3-9467-4542e7716660
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 3a17e485-3991-4ec3-bf71-971cffba395c
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: b67fa0e5-9bd1-43ac-9bbe-585337d4105e
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 09880863-752c-4496-9c73-c31bcc8317f9
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: c78001be-524f-4ed6-86af-bba3ff0bbbbb
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Assigned to'
+		dataType: string
+		lineageTag: 8caf8b78-7d95-4424-900f-11b606dc1b53
+		summarizeBy: none
+		sourceColumn: Assigned to
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		lineageTag: 3be59b54-a178-443f-981f-d4f4d75a7bb6
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Watchers
+		dataType: string
+		lineageTag: 22023118-bfcf-4d68-8b1e-13eb919ad225
+		summarizeBy: none
+		sourceColumn: Watchers
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created by'
+		dataType: string
+		lineageTag: 0d24d339-9fd9-449c-895d-48df4cb275bc
+		summarizeBy: none
+		sourceColumn: Created by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created on'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e917012d-44b8-4fc1-b614-c463a5522d19
+		summarizeBy: none
+		sourceColumn: Created on
+
+		variation Variation
+			isDefault
+			relationship: 815087ea-da34-465d-93d3-07ab3ef7af81
+			defaultHierarchy: LocalDateTable_403243ae-aa9d-4b96-bac1-7e595d2ac0d8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Due date'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 025fea0c-7ae8-4880-92af-89ba48547b17
+		summarizeBy: none
+		sourceColumn: Due date
+
+		variation Variation
+			isDefault
+			relationship: 2d40e6cd-ed09-4a01-8670-71588bdac6be
+			defaultHierarchy: LocalDateTable_0e44c301-6910-4028-8eed-18067a1ca594.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start date'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b855bf38-63c5-40b0-886a-6aa4e3913260
+		summarizeBy: none
+		sourceColumn: Start date
+
+		variation Variation
+			isDefault
+			relationship: 13454c15-1a1f-44ee-b3b0-23be2d02064a
+			defaultHierarchy: LocalDateTable_fc0627bc-7fcc-4754-8f28-fe79f90949c2.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		lineageTag: 112ef2d0-cf6b-4a02-a79b-95677f1e4d2b
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Location details'
+		dataType: string
+		lineageTag: 31046b69-67a2-4660-b721-a3e6f0a6878a
+		summarizeBy: none
+		sourceColumn: Location details
+
+		annotation SummarizationSetBy = Automatic
+
+	column Placement
+		dataType: string
+		lineageTag: 27ca859d-a12d-47da-a670-699a86e8e857
+		summarizeBy: none
+		sourceColumn: Placement
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Root cause'
+		dataType: string
+		lineageTag: f82ef41f-2bef-4820-8e18-c78f3a3803b4
+		summarizeBy: none
+		sourceColumn: Root cause
+
+		annotation SummarizationSetBy = Automatic
+
+	column Published
+		dataType: string
+		lineageTag: 125a65f0-fb92-484c-9872-b3d50d4a889b
+		summarizeBy: none
+		sourceColumn: Published
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Updated by'
+		dataType: string
+		lineageTag: 5794f899-65c1-48d0-97bd-cdfd5ca32aa9
+		summarizeBy: none
+		sourceColumn: Updated by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Updated on'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 61c9cf0a-b2ad-4d39-93ea-64cd1c3e0d7e
+		summarizeBy: none
+		sourceColumn: Updated on
+
+		variation Variation
+			isDefault
+			relationship: 068bd300-80bb-43ad-8720-2687f170d543
+			defaultHierarchy: LocalDateTable_8866de77-f3a3-49e9-a184-e17c6151ac89.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Closed by'
+		dataType: string
+		lineageTag: 6675ecf3-863e-4a10-93a1-41290db903e1
+		summarizeBy: none
+		sourceColumn: Closed by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Closed at'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b02088db-ff0c-4944-9280-86f33f804451
+		summarizeBy: none
+		sourceColumn: Closed at
+
+		variation Variation
+			isDefault
+			relationship: 31c4d180-8576-4c0d-b46e-331170e8624f
+			defaultHierarchy: LocalDateTable_50a9f4d5-f8d7-4204-8350-ad790af67bb8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		lineageTag: 51cf819e-0e57-4fab-a15f-340fe15d8da4
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column Disciplina
+		dataType: string
+		lineageTag: f90ca92f-1fd8-4af3-9037-22f8a38f1625
+		summarizeBy: none
+		sourceColumn: Disciplina
+
+		annotation SummarizationSetBy = Automatic
+
+	column Proyecto
+		dataType: string
+		lineageTag: ab0f6b6b-f8e9-4bee-9bd1-d2c52f3e8c36
+		summarizeBy: none
+		sourceColumn: Proyecto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Equipo
+		dataType: string
+		lineageTag: 2b18b983-b328-4e39-a7cb-52654a3beffe
+		summarizeBy: none
+		sourceColumn: Equipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ACC Disciplina'
+		dataType: string
+		lineageTag: 6929a2cf-5132-4eb6-9eb3-197d3c5d1382
+		summarizeBy: none
+		sourceColumn: ACC Disciplina
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProyectoConcurso
+		dataType: string
+		lineageTag: b6449560-4dcd-4e9b-8977-7b3b6ea2473f
+		summarizeBy: none
+		sourceColumn: ProyectoConcurso
+
+		annotation SummarizationSetBy = Automatic
+
+	partition VENTAS_ISSUES = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    // Fuente vigente: Autodesk Construction Cloud / Forma Data Connector.
+				    VENTASNormalizeUrn = (u as any) as nullable text =>
+				        let s = try Text.From(u) otherwise null, id = if s <> null and Text.Contains(s, "urn:adsk.wipprod:fs.file:vf.") then try Text.BeforeDelimiter(Text.AfterDelimiter(s, "urn:adsk.wipprod:fs.file:vf."), "?") otherwise null else null
+				        in if id <> null then "urn:adsk.wipprod:dm.lineage:" & id else s,
+				    VENTASNormalizeName = (valor as any) as text => 				        let 				            Limpio = try Text.Trim(Text.Clean(Text.From(valor))) otherwise "", 				            Mayusculas = Text.Upper(Limpio), 				            SinDiacriticos = List.Accumulate({{"Á", "A"}, {"É", "E"}, {"Í", "I"}, {"Ó", "O"}, {"Ú", "U"}, {"Ü", "U"}}, Mayusculas, (estado, par) => Text.Replace(estado, par{0}, par{1})) 				        in 				            SinDiacriticos,
+				    VENTASIssues0 = Table.SelectRows(issues_issues, each [issue_id] <> null and Text.Trim(Text.From([issue_id])) <> "" and ([deleted_at] = null or Text.Trim(Text.From([deleted_at])) = "")),
+				    VENTASTypes = Table.Distinct(Table.SelectColumns(issues_issue_types, {"issue_type_id", "issue_type"}), {"issue_type_id"}),
+				    VENTASSubtypes = Table.Distinct(Table.SelectColumns(issues_issue_subtypes, {"issue_subtype_id", "issue_subtype"}), {"issue_subtype_id"}),
+				    VENTASJoinTypes = Table.NestedJoin(VENTASIssues0, {"type_id"}, VENTASTypes, {"issue_type_id"}, "__type", JoinKind.LeftOuter),
+				    VENTASExpandTypes = Table.ExpandTableColumn(VENTASJoinTypes, "__type", {"issue_type"}, {"Category"}),
+				    VENTASJoinSubtypes = Table.NestedJoin(VENTASExpandTypes, {"subtype_id"}, VENTASSubtypes, {"issue_subtype_id"}, "__subtype", JoinKind.LeftOuter),
+				    VENTASExpandSubtypes = Table.ExpandTableColumn(VENTASJoinSubtypes, "__subtype", {"issue_subtype"}, {"Type"}),
+				
+				    VENTASUsers = Table.SelectColumns(admin_users, {"id", "autodesk_id", "name"}),
+				    VENTASUsersById = Table.Group(Table.SelectRows(VENTASUsers, each [id] <> null), {"id"}, {{"name", each try List.First(List.RemoveNulls([name])) otherwise null, type nullable text}}),
+				    VENTASUsersByAutodesk = Table.Group(Table.SelectRows(VENTASUsers, each [autodesk_id] <> null), {"autodesk_id"}, {{"name", each try List.First(List.RemoveNulls([name])) otherwise null, type nullable text}}),
+				    VENTASAddUser = (input as table, key as text, output as text) as table =>
+				        let
+				            J1 = Table.NestedJoin(input, {key}, VENTASUsersById, {"id"}, "__uid", JoinKind.LeftOuter),
+				            E1 = Table.ExpandTableColumn(J1, "__uid", {"name"}, {"__nameId"}),
+				            J2 = Table.NestedJoin(E1, {key}, VENTASUsersByAutodesk, {"autodesk_id"}, "__uad", JoinKind.LeftOuter),
+				            E2 = Table.ExpandTableColumn(J2, "__uad", {"name"}, {"__nameAd"}),
+				            A = Table.AddColumn(E2, output, each if [__nameId] <> null then [__nameId] else if [__nameAd] <> null then [__nameAd] else if Record.Field(_, key) = null then null else "Usuario no encontrado", type nullable text)
+				        in
+				            Table.RemoveColumns(A, {"__nameId", "__nameAd"}),
+				    VENTASAssignee = VENTASAddUser(VENTASExpandSubtypes, "assignee_id", "Assigned to"),
+				    VENTASCreator = VENTASAddUser(VENTASAssignee, "created_by", "Created by"),
+				    VENTASUpdater = VENTASAddUser(VENTASCreator, "updated_by", "Updated by"),
+				    VENTASCloser = VENTASAddUser(VENTASUpdater, "closed_by", "Closed by"),
+				
+				    VENTASViewableRows = Table.SelectRows(issues_viewables, each
+				        [issue_id] <> null
+				        and Text.Trim(Text.From([issue_id])) <> ""
+				        and ([deleted_at] = null or Text.Trim(Text.From([deleted_at])) = "")),
+				    VENTASViewableSorted = Table.Sort(VENTASViewableRows, {{"updated_at", Order.Descending}, {"created_at", Order.Descending}, {"file_version", Order.Descending}}),
+				    VENTASViewableFileJoin = Table.NestedJoin(VENTASViewableSorted, {"file_version_urn"}, DimProyectoConcurso, {"linked_document_urn"}, "__viewableFile", JoinKind.LeftOuter),
+				    VENTASViewableFileExpanded = Table.ExpandTableColumn(VENTASViewableFileJoin, "__viewableFile", {"NombreArchivo", "ProyectoConcurso"}, {"__MappedFileName", "__MappedProject"}),
+				    VENTASPlacementGroup = Table.Group(VENTASViewableFileExpanded, {"issue_id"}, {{"PlacementData", each
+				        let
+				            MappedNames = List.RemoveNulls(List.Transform([__MappedFileName], each let v = try Text.Trim(Text.From(_)) otherwise "" in if v = "" then null else v)),
+				            ViewableNames = List.RemoveNulls(List.Transform([name], each let v = try Text.Trim(Text.From(_)) otherwise "" in if v = "" then null else v)),
+				            FileName = if List.Count(MappedNames) > 0 then List.First(MappedNames) else List.First(ViewableNames, null),
+				            Projects = List.RemoveNulls(List.Transform([__MappedProject], each let v = try Text.Trim(Text.From(_)) otherwise "" in if v = "" then null else v)),
+				            PlacementProject = List.First(Projects, null)
+				        in
+				            [Placement = FileName, PlacementFileName = FileName, PlacementProyectoConcurso = PlacementProject], type record}}),
+				    VENTASPlacementJoin = Table.NestedJoin(VENTASCloser, {"issue_id"}, VENTASPlacementGroup, {"issue_id"}, "__placement", JoinKind.LeftOuter),
+				    VENTASPlacementExpanded0 = Table.ExpandTableColumn(VENTASPlacementJoin, "__placement", {"PlacementData"}, {"PlacementData"}),
+				    VENTASPlacementExpanded = Table.ExpandRecordColumn(VENTASPlacementExpanded0, "PlacementData", {"Placement", "PlacementFileName", "PlacementProyectoConcurso"}, {"Placement", "PlacementFileName", "PlacementProyectoConcurso"}),
+				    VENTASPlacement = Table.TransformColumns(VENTASPlacementExpanded, {{"Placement", each if _ = null or Text.Trim(Text.From(_)) = "" then "Sin archivo asociado" else Text.From(_), type text}}),
+				
+				    VENTASListValues = Table.Distinct(Table.SelectColumns(issues_custom_attribute_list_values, {"list_id", "list_value"}), {"list_id"}),
+				    VENTASAttrRows = Table.SelectColumns(issues_custom_attributes, {"issue_id", "attribute_title", "attribute_value"}),
+				    VENTASAttrListJoin = Table.NestedJoin(VENTASAttrRows, {"attribute_value"}, VENTASListValues, {"list_id"}, "__list", JoinKind.LeftOuter),
+				    VENTASAttrListExpand = Table.ExpandTableColumn(VENTASAttrListJoin, "__list", {"list_value"}, {"list_value"}),
+				    VENTASAttrResolved = Table.AddColumn(VENTASAttrListExpand, "resolved_value", each if [list_value] <> null then Text.From([list_value]) else try Text.From([attribute_value]) otherwise null, type nullable text),
+				    VENTASAttrGroup = Table.Group(VENTASAttrResolved, {"issue_id"}, {{"Attributes", each _, type table}}),
+				    VENTASAttrIssueJoin = Table.NestedJoin(VENTASPlacement, {"issue_id"}, VENTASAttrGroup, {"issue_id"}, "__attributes", JoinKind.LeftOuter),
+				    VENTASAttrExpand = Table.ExpandTableColumn(VENTASAttrIssueJoin, "__attributes", {"Attributes"}, {"Attributes"}),
+				    VENTASGetAttr = (t as nullable table, names as list) as nullable text =>
+				        if t = null then null else
+				        let
+				            Wanted = List.Transform(names, each Text.Upper(Text.Trim(_))),
+				            Matches = Table.SelectRows(t, each List.Contains(Wanted, Text.Upper(Text.Trim(Text.From([attribute_title])))))
+				        in
+				            try Text.From(List.First(List.RemoveNulls(Matches[resolved_value]))) otherwise null,
+				    VENTASAcc = Table.AddColumn(VENTASAttrExpand, "ACC Disciplina", each VENTASGetAttr([Attributes], {"Disciplina", "ACC Disciplina"}), type nullable text),
+				
+				    VENTASCommentRows = Table.SelectRows(issues_comments, each [issue_id] <> null and [comment_body] <> null),
+				    VENTASCommentGroup = Table.Group(VENTASCommentRows, {"issue_id"}, {{"Comments", each Text.Combine(List.Transform(List.RemoveNulls([comment_body]), each Text.From(_)), " | "), type nullable text}}),
+				    VENTASCommentJoin = Table.NestedJoin(VENTASAcc, {"issue_id"}, VENTASCommentGroup, {"issue_id"}, "__comments", JoinKind.LeftOuter),
+				    VENTASComments = Table.ExpandTableColumn(VENTASCommentJoin, "__comments", {"Comments"}, {"Comments"}),
+				
+				    VENTASLocalKey = Table.AddColumn(VENTASComments, "__LocalDocumentKey", each let a = VENTASNormalizeUrn([linked_document_urn]), b = VENTASNormalizeUrn([snapshot_urn]) in if a <> null and Text.Trim(a) <> "" then a else b, type nullable text),
+				    VENTASLocalJoin = Table.NestedJoin(VENTASLocalKey, {"__LocalDocumentKey"}, DimArchivoLocal, {"DocumentUrn"}, "__localFile", JoinKind.LeftOuter),
+				    VENTASLocalExpanded = Table.ExpandTableColumn(VENTASLocalJoin, "__localFile", {"NombreArchivo", "ProyectoConcurso"}, {"__LocalFileName", "__LocalProject"}),
+				    VENTASProjectJoin = Table.NestedJoin(VENTASLocalExpanded, {"linked_document_urn"}, DimProyectoConcurso, {"linked_document_urn"}, "__project", JoinKind.LeftOuter),
+				    VENTASProjectExpanded = Table.ExpandTableColumn(VENTASProjectJoin, "__project", {"ProyectoConcurso", "NombreArchivo"}, {"__LinkedProject", "__LinkedFileName"}),
+				    VENTASResolvedFile = Table.AddColumn(VENTASProjectExpanded, "NombreArchivo", each
+				        let
+				            PlacementName = try Text.Trim(Text.From([PlacementFileName])) otherwise "",
+				            LocalName = try Text.Trim(Text.From([__LocalFileName])) otherwise "",
+				            LinkedName = try Text.Trim(Text.From([__LinkedFileName])) otherwise ""
+				        in
+				            if LocalName <> "" then LocalName else if PlacementName <> "" then PlacementName else if LinkedName <> "" then LinkedName else null,
+				        type nullable text),
+				    VENTASPlacementResolved0 = Table.AddColumn(VENTASResolvedFile, "__PlacementResolved", each if [NombreArchivo] <> null and Text.Trim(Text.From([NombreArchivo])) <> "" then [NombreArchivo] else [Placement], type text),
+				    VENTASPlacementResolved1 = Table.RemoveColumns(VENTASPlacementResolved0, {"Placement"}),
+				    VENTASPlacementResolved = Table.RenameColumns(VENTASPlacementResolved1, {{"__PlacementResolved", "Placement"}}),
+				    VENTASResolvedProject = Table.AddColumn(VENTASPlacementResolved, "ProyectoConcurso", each
+				        let
+				            PlacementProject = try Text.Trim(Text.From([PlacementProyectoConcurso])) otherwise "",
+				            LocalProject = try Text.Trim(Text.From([__LocalProject])) otherwise "",
+				            LinkedProject = try Text.Trim(Text.From([__LinkedProject])) otherwise ""
+				        in
+				            if LocalProject <> "" then LocalProject else if PlacementProject <> "" then PlacementProject else if LinkedProject <> "" then LinkedProject else null,
+				        type nullable text),
+				    VENTASId = Table.AddColumn(VENTASResolvedProject, "ID", each if [display_id] = null then null else "VENTAS" & Text.From([display_id]), type text),
+				    VENTASStatus = Table.AddColumn(VENTASId, "Status normalized", each let s = Text.Lower(Text.Trim(Text.From([status]))) in if s = "open" then "Open" else if s = "closed" then "Closed" else if s = "completed" then "Completed" else if s = "draft" then "Draft" else if s = "in_review" or s = "in review" then "In review" else [status], type nullable text),
+				    VENTASDiscipline = Table.AddColumn(VENTASStatus, "Disciplina normalized", each
+				        let
+				            ArchivoRaw = try [NombreArchivo] otherwise null,
+				            Archivo = if ArchivoRaw = null then "" else try Text.Upper(Text.From(ArchivoRaw)) otherwise ""
+				        in
+				            if Text.Contains(Archivo, "ARQ") or Text.Contains(Archivo, "ARC") then "ARQUITECTURA"
+				            else if Text.Contains(Archivo, "EST") or Text.Contains(Archivo, "STR") then "ESTRUCTURA"
+				            else if Text.Contains(Archivo, "ELE") then "ELECTRICA"
+				            else if Text.Contains(Archivo, "ESP") or Text.Contains(Archivo, "SPE") then "ESPECIALES"
+				            else if Text.Contains(Archivo, "MEC") then "MECANICA"
+				            else if Text.Contains(Archivo, "PLO") or Text.Contains(Archivo, "PLU") then "PLOMERIA"
+				            else "SIN DISCIPLINA",
+				        type text),
+				    VENTASTeamKey = Table.AddColumn(VENTASDiscipline, "__IntegranteKey", each VENTASNormalizeName([Assigned to]), type text),
+				    VENTASTeamJoin = Table.NestedJoin(VENTASTeamKey, {"__IntegranteKey"}, EquiposIntegrantesVENTAS, {"IntegranteKey"}, "__team", JoinKind.LeftOuter),
+				    VENTASTeamExpanded = Table.ExpandTableColumn(VENTASTeamJoin, "__team", {"Equipo"}, {"__EquipoExcel"}),
+				    VENTASTeam = Table.AddColumn(VENTASTeamExpanded, "Equipo", each let e = try Text.Trim(Text.From([__EquipoExcel])) otherwise "" in if e = "" then "SIN EQUIPO" else e, type text),
+				    VENTASProject = Table.AddColumn(VENTASTeam, "Proyecto", each "VENTAS GCP", type text),
+				    VENTASCompany = Table.AddColumn(VENTASProject, "Company", each null, type nullable text),
+				    VENTASWatchers = Table.AddColumn(VENTASCompany, "Watchers", each null, type nullable text),
+				    VENTASRenamed = Table.RenameColumns(VENTASWatchers, {{"title", "Title"}, {"description", "Description"}, {"created_at", "Created on"}, {"due_date", "Due date"}, {"start_date", "Start date"}, {"location_id", "Location"}, {"location_details", "Location details"}, {"root_cause_id", "Root cause"}, {"published", "Published"}, {"updated_at", "Updated on"}, {"closed_at", "Closed at"}, {"Status normalized", "Status"}, {"Disciplina normalized", "Disciplina"}}),
+				    VENTASFiltered = Table.SelectRows(VENTASRenamed, each [Category] = "5D - GCP" and List.Contains({"5D - Especificación", "5D - Omisión", "5D - Modelado", "5D - Parametrización"}, [Type])),
+				    VENTASSelected = Table.SelectColumns(VENTASFiltered, {"ID", "Title", "Status", "Category", "Type", "Description", "Assigned to", "Company", "Watchers", "Created by", "Created on", "Due date", "Start date", "Location", "Location details", "Placement", "Root cause", "Published", "Updated by", "Updated on", "Closed by", "Closed at", "Comments", "Disciplina", "Proyecto", "Equipo", "ACC Disciplina", "ProyectoConcurso"}),
+				    VENTASTyped = Table.TransformColumnTypes(VENTASSelected, {{"ID", type text}, {"Title", type text}, {"Status", type text}, {"Category", type text}, {"Type", type text}, {"Description", type text}, {"Assigned to", type text}, {"Company", type text}, {"Watchers", type text}, {"Created by", type text}, {"Created on", type datetime}, {"Due date", type datetime}, {"Start date", type datetime}, {"Location", type text}, {"Location details", type text}, {"Placement", type text}, {"Root cause", type text}, {"Published", type text}, {"Updated by", type text}, {"Updated on", type datetime}, {"Closed by", type text}, {"Closed at", type datetime}, {"Comments", type text}, {"Disciplina", type text}, {"Proyecto", type text}, {"Equipo", type text}, {"ACC Disciplina", type text}, {"ProyectoConcurso", type text}}, "es-MX"),
+				
+				    VENTASFinal = VENTASTyped,
+				    #"Sorted Rows" = Table.Sort(VENTASFinal,{{"Created on", Order.Descending}})
+				in
+				    #"Sorted Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

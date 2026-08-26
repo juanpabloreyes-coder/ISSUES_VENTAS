@@ -1,0 +1,67 @@
+relationship 2a6c75cf-67fe-4f6f-a44c-de53f8157479
+	joinOnDateBehavior: datePartOnly
+	fromColumn: activities_issues_changes.created_at
+	toColumn: LocalDateTable_bf91a1a6-b690-4558-a6b7-cf69b2641485.Date
+
+relationship AutoDetected_2750b37d-290d-4a77-a4d8-7ead8bfc1621
+	fromColumn: activities_issues_changes.activity_id
+	toColumn: activities_issues_activities.activity_id
+
+relationship AutoDetected_90f862a4-f2bc-46fc-bc41-7d39a9e9e76c
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: issues_comments.issue_id
+	toColumn: issues_issues.issue_id
+
+relationship AutoDetected_3719c6ab-f1ba-4335-b85b-58252c3fbe3f
+	fromColumn: issues_custom_attributes.issue_id
+	toColumn: issues_issues.issue_id
+
+relationship AutoDetected_fd835a49-9379-4136-87c4-05df1f62e844
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: issues_placements.issue_id
+	toColumn: issues_issues.issue_id
+
+relationship AutoDetected_6390fa75-1cce-474e-bc3a-627e20745b91
+	fromColumn: issues_issue_subtypes.issue_type_id
+	toColumn: issues_issue_types.issue_type_id
+
+relationship 4a949926-b3b9-4431-a399-ccb8a0f250ef
+	fromColumn: issues_issues.linked_document_urn
+	toColumn: DimProyectoConcurso.linked_document_urn
+
+relationship fa632fda-601b-4ba1-922e-cdb573ecd0f3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimProyectoConcurso.UltimaActividad
+	toColumn: LocalDateTable_77fb6736-44f8-433a-8b4d-52bc96fec903.Date
+
+relationship 815087ea-da34-465d-93d3-07ab3ef7af81
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VENTAS_ISSUES.'Created on'
+	toColumn: LocalDateTable_403243ae-aa9d-4b96-bac1-7e595d2ac0d8.Date
+
+relationship 2d40e6cd-ed09-4a01-8670-71588bdac6be
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VENTAS_ISSUES.'Due date'
+	toColumn: LocalDateTable_0e44c301-6910-4028-8eed-18067a1ca594.Date
+
+relationship 13454c15-1a1f-44ee-b3b0-23be2d02064a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VENTAS_ISSUES.'Start date'
+	toColumn: LocalDateTable_fc0627bc-7fcc-4754-8f28-fe79f90949c2.Date
+
+relationship 068bd300-80bb-43ad-8720-2687f170d543
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VENTAS_ISSUES.'Updated on'
+	toColumn: LocalDateTable_8866de77-f3a3-49e9-a184-e17c6151ac89.Date
+
+relationship 31c4d180-8576-4c0d-b46e-331170e8624f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VENTAS_ISSUES.'Closed at'
+	toColumn: LocalDateTable_50a9f4d5-f8d7-4204-8350-ad790af67bb8.Date
+
+relationship AutoDetected_48188ebf-08cb-4932-bd59-5abf2fe2e6e6
+	fromColumn: issues_custom_attributes.issue_id
+	toColumn: issues_viewables.issue_id
+

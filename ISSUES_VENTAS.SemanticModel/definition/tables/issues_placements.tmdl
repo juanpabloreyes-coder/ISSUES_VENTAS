@@ -1,0 +1,140 @@
+table issues_placements
+	lineageTag: 7d1104c6-0731-42c7-b02a-9b84801cbac5
+
+	column placement_id
+		dataType: string
+		lineageTag: 5aebad70-7561-4b98-aa71-8e069f758e37
+		summarizeBy: none
+		sourceColumn: placement_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_account_id
+		dataType: string
+		lineageTag: 36049707-b8c2-4943-9ae0-e5a5034dc744
+		summarizeBy: none
+		sourceColumn: bim360_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_project_id
+		dataType: string
+		lineageTag: e28cea79-47af-4ce9-a53e-66f6242d386f
+		summarizeBy: none
+		sourceColumn: bim360_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column issue_id
+		dataType: string
+		lineageTag: 4b114afb-0575-437d-9640-4e7c840d46b6
+		summarizeBy: none
+		sourceColumn: issue_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column lineage_urn
+		dataType: string
+		lineageTag: 58efd84e-f314-471f-9fce-4988af128d5a
+		summarizeBy: none
+		sourceColumn: lineage_urn
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: 27451899-41ee-4ab3-b05e-aee830aa2951
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at_version
+		dataType: string
+		lineageTag: 944d219c-cc70-40f5-a1df-025b7c2bfadc
+		summarizeBy: none
+		sourceColumn: created_at_version
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin_product
+		dataType: string
+		lineageTag: 0a4b338f-ddaf-4107-8fc6-71bb0a23f4c5
+		summarizeBy: none
+		sourceColumn: origin_product
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin_tool
+		dataType: string
+		lineageTag: 9f12c03b-eed1-4011-b635-cfa2be59f823
+		summarizeBy: none
+		sourceColumn: origin_tool
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: 69f8ab54-d5b1-4790-b4e4-b6fe1185ace0
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: ee8abac9-4f3e-4e8d-9c5c-15c81756e30d
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_by
+		dataType: string
+		lineageTag: 9ee5f160-798d-4856-9cc0-b269c9de3cbb
+		summarizeBy: none
+		sourceColumn: updated_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: 63346a21-d3ed-4ce2-9ad2-88d791290f82
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column deleted_by
+		dataType: string
+		lineageTag: fb1b9e44-757a-4ee4-ab66-0ae5723ee922
+		summarizeBy: none
+		sourceColumn: deleted_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column deleted_at
+		dataType: string
+		lineageTag: a29732c8-21c8-4fb7-859c-4bba7f1b31dc
+		summarizeBy: none
+		sourceColumn: deleted_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition issues_placements = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    Source = AutodeskConstructionCloud.Feed("United States"),
+				    #"17fefe95-3b69-4d44-bb94-0cbec2173aea" = Source{[Key="17fefe95-3b69-4d44-bb94-0cbec2173aea"]}[Data],
+				    #"Project Extracts" = #"17fefe95-3b69-4d44-bb94-0cbec2173aea"{[Name="Project Extracts"]}[Data],
+				    #"5f587011-eb8e-4072-b4df-f16aee3915aa" = #"Project Extracts"{[Key="5f587011-eb8e-4072-b4df-f16aee3915aa"]}[Data],
+				    issues_placements1 = #"5f587011-eb8e-4072-b4df-f16aee3915aa"{[Name="issues_placements"]}[Data]
+				in
+				    issues_placements1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,100 @@
+table issues_custom_attributes
+	lineageTag: 0b9c5e13-8fc5-48a1-9308-ac8a7ec03f64
+
+	column issue_id
+		dataType: string
+		lineageTag: 104b08c2-17ce-41bb-9ae4-3719cd56da40
+		summarizeBy: none
+		sourceColumn: issue_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_account_id
+		dataType: string
+		lineageTag: 8f5c1d70-06a4-4c81-98e0-330dd1a93ac1
+		summarizeBy: none
+		sourceColumn: bim360_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_project_id
+		dataType: string
+		lineageTag: 479a044f-ad8a-4e5c-99f4-1f11508743ef
+		summarizeBy: none
+		sourceColumn: bim360_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column mapped_item_type
+		dataType: string
+		lineageTag: 8e30f400-a6aa-4523-aab2-29909b8863c0
+		summarizeBy: none
+		sourceColumn: mapped_item_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_mapping_id
+		dataType: string
+		lineageTag: 1cf97529-f400-4a35-b670-2b5adba0aa40
+		summarizeBy: none
+		sourceColumn: attribute_mapping_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_title
+		dataType: string
+		lineageTag: c414132d-a92b-4603-af6a-b54948c754ed
+		summarizeBy: none
+		sourceColumn: attribute_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_description
+		dataType: string
+		lineageTag: 4c166567-642a-490d-945a-6cdae23e0b93
+		summarizeBy: none
+		sourceColumn: attribute_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_data_type
+		dataType: string
+		lineageTag: d8d073ca-bfff-497a-b304-e503d7028981
+		summarizeBy: none
+		sourceColumn: attribute_data_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_required
+		dataType: string
+		lineageTag: 813f6aab-82e2-4c12-b173-4d3acbf792df
+		summarizeBy: none
+		sourceColumn: is_required
+
+		annotation SummarizationSetBy = Automatic
+
+	column attribute_value
+		dataType: string
+		lineageTag: 890d7c99-9e71-4e60-bcd8-fef75e399453
+		summarizeBy: none
+		sourceColumn: attribute_value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition issues_custom_attributes = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    Source = AutodeskConstructionCloud.Feed("United States"),
+				    #"17fefe95-3b69-4d44-bb94-0cbec2173aea" = Source{[Key="17fefe95-3b69-4d44-bb94-0cbec2173aea"]}[Data],
+				    #"Project Extracts" = #"17fefe95-3b69-4d44-bb94-0cbec2173aea"{[Name="Project Extracts"]}[Data],
+				    #"5f587011-eb8e-4072-b4df-f16aee3915aa" = #"Project Extracts"{[Key="5f587011-eb8e-4072-b4df-f16aee3915aa"]}[Data],
+				    issues_custom_attributes1 = #"5f587011-eb8e-4072-b4df-f16aee3915aa"{[Name="issues_custom_attributes"]}[Data]
+				in
+				    issues_custom_attributes1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

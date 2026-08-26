@@ -1,0 +1,42 @@
+table EquiposIntegrantesVENTAS
+	lineageTag: 62e845cf-293c-4c28-9e94-42b500abc802
+
+	column Equipo
+		dataType: string
+		lineageTag: 23543c21-46a8-4d77-8d76-5d243c57172a
+		summarizeBy: none
+		sourceColumn: Equipo
+
+	column Integrante
+		dataType: string
+		lineageTag: 4db52fd8-a749-4db0-9b3d-371900ff4845
+		summarizeBy: none
+		sourceColumn: Integrante
+
+	column IntegranteKey
+		dataType: string
+		lineageTag: 6055b72e-74cf-4090-89c9-9df72e098c18
+		summarizeBy: none
+		sourceColumn: IntegranteKey
+
+	partition EquiposIntegrantesVENTAS = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    NormalizarNombre = (valor as any) as text => 				        let 				            Limpio = try Text.Trim(Text.Clean(Text.From(valor))) otherwise "", 				            Mayusculas = Text.Upper(Limpio), 				            SinDiacriticos = List.Accumulate({{"Á", "A"}, {"É", "E"}, {"Í", "I"}, {"Ó", "O"}, {"Ú", "U"}, {"Ü", "U"}}, Mayusculas, (estado, par) => Text.Replace(estado, par{0}, par{1})) 				        in 				            SinDiacriticos,
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\DC\ACCDocs\GCPEASA\GCP_TRANSFORMACIÓN_DIGITAL\Project Files\01_IMPLEMENTACIÓN_BIM\0112_SQDCM\Equipos e integrantes - VENTAS.xlsx"), null, true),
+				    IntegrantesSheet = Source{[Item="Integrantes", Kind="Sheet"]}[Data],
+				    PromotedHeaders = Table.PromoteHeaders(IntegrantesSheet, [PromoteAllScalars=true]),
+				    Selected = Table.SelectColumns(PromotedHeaders, {"Equipo", "Integrante"}),
+				    AsText = Table.TransformColumns(Selected, {{"Equipo", each try Text.Trim(Text.Clean(Text.From(_))) otherwise null, type nullable text}, {"Integrante", each try Text.Trim(Text.Clean(Text.From(_))) otherwise null, type nullable text}}),
+				    ValidRows = Table.SelectRows(AsText, each [Equipo] <> null and [Equipo] <> "" and [Integrante] <> null and [Integrante] <> ""),
+				    WithKey = Table.AddColumn(ValidRows, "IntegranteKey", each NormalizarNombre([Integrante]), type text),
+				    Output = Table.Distinct(WithKey, {"IntegranteKey"})
+				in
+				    Output
+
+	annotation PBI_NavigationStepName = Integrantes
+
+	annotation PBI_ResultType = Table
+

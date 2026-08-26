@@ -1,0 +1,60 @@
+table issues_custom_attribute_list_values
+	lineageTag: cdc6fb8c-8b11-4dfb-9796-019f9faaf40f
+
+	column attribute_mappings_id
+		dataType: string
+		lineageTag: a89f9349-d322-4068-8a5d-76937c31159d
+		summarizeBy: none
+		sourceColumn: attribute_mappings_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_account_id
+		dataType: string
+		lineageTag: 99143a52-fa7f-4193-a428-28a849549189
+		summarizeBy: none
+		sourceColumn: bim360_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_project_id
+		dataType: string
+		lineageTag: eeda73fb-d108-4c6b-9c8f-04bf3934a112
+		summarizeBy: none
+		sourceColumn: bim360_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column list_id
+		dataType: string
+		lineageTag: 52806d74-6947-422d-ac67-de5f4041788a
+		summarizeBy: none
+		sourceColumn: list_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column list_value
+		dataType: string
+		lineageTag: 90159763-2ae1-49ad-a06a-a8f8ec9ff4f0
+		summarizeBy: none
+		sourceColumn: list_value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition issues_custom_attribute_list_values = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    Source = AutodeskConstructionCloud.Feed("United States"),
+				    #"17fefe95-3b69-4d44-bb94-0cbec2173aea" = Source{[Key="17fefe95-3b69-4d44-bb94-0cbec2173aea"]}[Data],
+				    #"Project Extracts" = #"17fefe95-3b69-4d44-bb94-0cbec2173aea"{[Name="Project Extracts"]}[Data],
+				    #"5f587011-eb8e-4072-b4df-f16aee3915aa" = #"Project Extracts"{[Key="5f587011-eb8e-4072-b4df-f16aee3915aa"]}[Data],
+				    issues_custom_attribute_list_values1 = #"5f587011-eb8e-4072-b4df-f16aee3915aa"{[Name="issues_custom_attribute_list_values"]}[Data]
+				in
+				    issues_custom_attribute_list_values1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,19 @@
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Estado de ejecucion y registros locales
+Automation/automation.log
+Automation/state.json
+Automation/filemap-state.json
+Automation/monitor.pid
+Automation/folder-change.signal
+
+# Respaldos generados por las automatizaciones
+Automation/*.last-good.tmdl
+Automation/*.before-*.tmdl
+
+# Archivos temporales de Windows y Power BI
+Thumbs.db
+Desktop.ini
+~$*
+*.tmp

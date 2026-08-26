@@ -1,0 +1,68 @@
+table issues_checklist_mappings
+	lineageTag: 76227845-a53b-4d34-af1c-ab01c85dcc4b
+
+	column issue_id
+		dataType: string
+		lineageTag: 56f6a1d1-9250-433a-8292-6c49363e96fe
+		summarizeBy: none
+		sourceColumn: issue_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_account_id
+		dataType: string
+		lineageTag: 5d5dac19-a9b3-48e4-b828-b5e4c1d56933
+		summarizeBy: none
+		sourceColumn: bim360_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_project_id
+		dataType: string
+		lineageTag: 7ad9ce87-1a1a-47c9-96ae-8bcd6d261042
+		summarizeBy: none
+		sourceColumn: bim360_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column checklist_id
+		dataType: string
+		lineageTag: 1512cf63-256f-4328-afaf-7b553b477bd5
+		summarizeBy: none
+		sourceColumn: checklist_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column checklist_item
+		dataType: string
+		lineageTag: d8aa8a61-7396-4f05-b755-f5315b8dad1b
+		summarizeBy: none
+		sourceColumn: checklist_item
+
+		annotation SummarizationSetBy = Automatic
+
+	column checklist_section
+		dataType: string
+		lineageTag: c22cb771-da42-4c36-918a-a40d683be202
+		summarizeBy: none
+		sourceColumn: checklist_section
+
+		annotation SummarizationSetBy = Automatic
+
+	partition issues_checklist_mappings = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    Source = AutodeskConstructionCloud.Feed("United States"),
+				    #"17fefe95-3b69-4d44-bb94-0cbec2173aea" = Source{[Key="17fefe95-3b69-4d44-bb94-0cbec2173aea"]}[Data],
+				    #"Project Extracts" = #"17fefe95-3b69-4d44-bb94-0cbec2173aea"{[Name="Project Extracts"]}[Data],
+				    #"5f587011-eb8e-4072-b4df-f16aee3915aa" = #"Project Extracts"{[Key="5f587011-eb8e-4072-b4df-f16aee3915aa"]}[Data],
+				    issues_checklist_mappings1 = #"5f587011-eb8e-4072-b4df-f16aee3915aa"{[Name="issues_checklist_mappings"]}[Data]
+				in
+				    issues_checklist_mappings1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

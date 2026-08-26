@@ -1,0 +1,52 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-MX
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup VENTAS
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 14/08/2026 11:15:59 a. m..
+queryGroup 'Query Errors - 14/08/2026 11:15:59 a  m'
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["activities_issues_activities","activities_issues_changes","issues_checklist_mappings","issues_comments","issues_custom_attributes","issues_custom_attribute_list_values","issues_issue_subtypes","issues_issue_types","issues_issues","issues_custom_attributes_mappings","issues_placements","admin_users","DimProyectoConcurso","issues_viewables","DimArchivoLocal","EquiposIntegrantesVENTAS","VENTAS_ISSUES","Errors in VENTAS_ISSUES"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table activities_issues_activities
+ref table activities_issues_changes
+ref table DateTableTemplate_ca01b39d-937d-4b4d-b4d3-695966758b7c
+ref table LocalDateTable_bf91a1a6-b690-4558-a6b7-cf69b2641485
+ref table issues_checklist_mappings
+ref table issues_comments
+ref table issues_custom_attributes
+ref table issues_custom_attribute_list_values
+ref table issues_issue_subtypes
+ref table issues_issue_types
+ref table issues_issues
+ref table issues_custom_attributes_mappings
+ref table issues_placements
+ref table admin_users
+ref table DimProyectoConcurso
+ref table VENTAS_ISSUES
+ref table issues_viewables
+ref table LocalDateTable_77fb6736-44f8-433a-8b4d-52bc96fec903
+ref table LocalDateTable_403243ae-aa9d-4b96-bac1-7e595d2ac0d8
+ref table LocalDateTable_0e44c301-6910-4028-8eed-18067a1ca594
+ref table LocalDateTable_fc0627bc-7fcc-4754-8f28-fe79f90949c2
+ref table LocalDateTable_8866de77-f3a3-49e9-a184-e17c6151ac89
+ref table LocalDateTable_50a9f4d5-f8d7-4204-8350-ad790af67bb8
+ref table DimArchivoLocal
+ref table EquiposIntegrantesVENTAS
+
+ref cultureInfo en-US
+

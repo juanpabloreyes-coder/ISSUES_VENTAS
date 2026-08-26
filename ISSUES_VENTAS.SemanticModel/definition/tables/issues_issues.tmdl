@@ -1,0 +1,319 @@
+table issues_issues
+	lineageTag: e5b4560b-5121-4990-90dd-a9d29982462e
+
+	column issue_id
+		dataType: string
+		lineageTag: 4f9a876d-5254-4e89-89ef-12100e61644c
+		summarizeBy: none
+		sourceColumn: issue_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_account_id
+		dataType: string
+		lineageTag: fcdea8eb-3347-4efc-b5f5-398847d9a31a
+		summarizeBy: none
+		sourceColumn: bim360_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_project_id
+		dataType: string
+		lineageTag: 564ef09e-8cfd-4ff4-874e-699c6e602391
+		summarizeBy: none
+		sourceColumn: bim360_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column display_id
+		dataType: string
+		lineageTag: 5eaeb984-c0e2-4dfb-811a-1093de7368a4
+		summarizeBy: none
+		sourceColumn: display_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: 39a0338b-8c4b-450f-860e-35368baf1a3e
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: c0e3a95f-dbe8-4095-bca4-c998bafc32e6
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column type_id
+		dataType: string
+		lineageTag: 3f0869c5-4976-4fa1-911d-a66c58d457f1
+		summarizeBy: none
+		sourceColumn: type_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column subtype_id
+		dataType: string
+		lineageTag: cd38a7de-a2aa-4337-9815-e94fe05194d4
+		summarizeBy: none
+		sourceColumn: subtype_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 473598c6-59b3-49d8-8cdc-82601ea15567
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column assignee_id
+		dataType: string
+		lineageTag: 3ca9b403-731f-4093-a439-e0bf9ed54873
+		summarizeBy: none
+		sourceColumn: assignee_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column assignee_type
+		dataType: string
+		lineageTag: cb84b051-0a30-4169-93c6-d2f12e83e033
+		summarizeBy: none
+		sourceColumn: assignee_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column due_date
+		dataType: string
+		lineageTag: 3f318dbd-3ed6-4520-81c1-6789f202b892
+		summarizeBy: none
+		sourceColumn: due_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_id
+		dataType: string
+		lineageTag: 6ed2d645-8b31-4796-9c35-fdee420b92ca
+		summarizeBy: none
+		sourceColumn: location_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_details
+		dataType: string
+		lineageTag: f3257417-7e57-4be6-8cf7-cc0473aa5ded
+		summarizeBy: none
+		sourceColumn: location_details
+
+		annotation SummarizationSetBy = Automatic
+
+	column linked_document_urn
+		dataType: string
+		lineageTag: 3f7717f2-b92b-4b1b-9b45-e61814efd540
+		summarizeBy: none
+		sourceColumn: linked_document_urn
+
+		annotation SummarizationSetBy = Automatic
+
+	column owner_id
+		dataType: string
+		lineageTag: c616097a-bd78-4115-82f7-95bbc358cae5
+		summarizeBy: none
+		sourceColumn: owner_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column root_cause_id
+		dataType: string
+		lineageTag: 199f8666-221e-40b1-b7ab-f2c01ef298b6
+		summarizeBy: none
+		sourceColumn: root_cause_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column root_cause_category_id
+		dataType: string
+		lineageTag: 38ac4eab-16c9-4280-b3b2-f00a246a417c
+		summarizeBy: none
+		sourceColumn: root_cause_category_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column response
+		dataType: string
+		lineageTag: e6986d05-9dd5-4c19-9d37-d62b8eedbcca
+		summarizeBy: none
+		sourceColumn: response
+
+		annotation SummarizationSetBy = Automatic
+
+	column response_by
+		dataType: string
+		lineageTag: a8439935-af5e-45a4-8f5c-8d3d07a22eaa
+		summarizeBy: none
+		sourceColumn: response_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column response_at
+		dataType: string
+		lineageTag: f12f226e-5853-483a-ac5c-95a981d4092d
+		summarizeBy: none
+		sourceColumn: response_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column opened_by
+		dataType: string
+		lineageTag: 0803745a-ad42-4c4a-81e9-84e11b3b8475
+		summarizeBy: none
+		sourceColumn: opened_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column opened_at
+		dataType: string
+		lineageTag: b5e81ec5-21a9-415d-9829-f59b1f1e1040
+		summarizeBy: none
+		sourceColumn: opened_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column closed_by
+		dataType: string
+		lineageTag: 293ef320-dfe3-4846-8db3-27fa5ec8a98a
+		summarizeBy: none
+		sourceColumn: closed_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column closed_at
+		dataType: string
+		lineageTag: aeac5a35-ac19-4126-9e37-47290bae22aa
+		summarizeBy: none
+		sourceColumn: closed_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: c1a394b1-5ac5-4211-bc40-af475d82c99d
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: 017d5af8-8cb4-42bb-a47f-b09d46480e6a
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_by
+		dataType: string
+		lineageTag: 496d88c8-875e-47bc-9fd1-29f5df6e3416
+		summarizeBy: none
+		sourceColumn: updated_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: b3f6dc62-a97d-4a69-813e-ca311eeb0360
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date
+		dataType: string
+		lineageTag: e6766331-f2cf-4a91-82cc-aad8fc624b0f
+		summarizeBy: none
+		sourceColumn: start_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column deleted_at
+		dataType: string
+		lineageTag: 2c7d9e6f-3ad3-478b-a06f-3d52b4eba537
+		summarizeBy: none
+		sourceColumn: deleted_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column snapshot_urn
+		dataType: string
+		lineageTag: ef85786d-7363-4ee3-b81c-75f40cfc5b58
+		summarizeBy: none
+		sourceColumn: snapshot_urn
+
+		annotation SummarizationSetBy = Automatic
+
+	column published
+		dataType: string
+		lineageTag: 684f5c5d-db6b-4f3a-a0e0-b2c9d7372309
+		summarizeBy: none
+		sourceColumn: published
+
+		annotation SummarizationSetBy = Automatic
+
+	column gps_coordinates
+		dataType: string
+		lineageTag: 67e8f601-83a4-4f5f-ab24-a232e0dd649b
+		summarizeBy: none
+		sourceColumn: gps_coordinates
+
+		annotation SummarizationSetBy = Automatic
+
+	column deleted_by
+		dataType: string
+		lineageTag: 9882e920-4911-40c7-a431-5bc962db06ec
+		summarizeBy: none
+		sourceColumn: deleted_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProyectoConcurso = RELATED('DimProyectoConcurso'[ProyectoConcurso])
+		dataType: string
+		lineageTag: b0da30f6-5ad5-4231-bc11-2fc101b9da92
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column EstadoProyectoConcurso =
+			IF(
+			    ISBLANK([linked_document_urn]),
+			    "Sin documento vinculado",
+			    COALESCE(RELATED('DimProyectoConcurso'[EstadoResolucion]), "Sin carpeta identificada")
+			)
+		dataType: string
+		lineageTag: 0620d8dc-90a0-4f8a-9230-48bcffe48581
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition issues_issues = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    Source = AutodeskConstructionCloud.Feed("United States"),
+				    #"17fefe95-3b69-4d44-bb94-0cbec2173aea" = Source{[Key="17fefe95-3b69-4d44-bb94-0cbec2173aea"]}[Data],
+				    #"Project Extracts" = #"17fefe95-3b69-4d44-bb94-0cbec2173aea"{[Name="Project Extracts"]}[Data],
+				    #"5f587011-eb8e-4072-b4df-f16aee3915aa" = #"Project Extracts"{[Key="5f587011-eb8e-4072-b4df-f16aee3915aa"]}[Data],
+				    issues_issues1 = #"5f587011-eb8e-4072-b4df-f16aee3915aa"{[Name="issues_issues"]}[Data]
+				in
+				    issues_issues1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,91 @@
+table activities_issues_changes
+	lineageTag: a3fd5f5a-0168-4146-ade6-2e40a31a146d
+
+	column bim360_account_id
+		dataType: string
+		lineageTag: 6ecabe90-9cbb-44bd-a0e0-8c4fe3af7f27
+		summarizeBy: none
+		sourceColumn: bim360_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_project_id
+		dataType: string
+		lineageTag: 22e92509-0827-4fc2-a3b9-77623aa00440
+		summarizeBy: none
+		sourceColumn: bim360_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column activity_id
+		dataType: string
+		lineageTag: e18030b6-643f-43f4-8af0-4e9fce6b426f
+		summarizeBy: none
+		sourceColumn: activity_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 933bb66a-d3bb-4fa8-bef4-54c3c8733a37
+		summarizeBy: none
+		sourceColumn: created_at
+
+		variation Variation
+			isDefault
+			relationship: 2a6c75cf-67fe-4f6f-a44c-de53f8157479
+			defaultHierarchy: LocalDateTable_bf91a1a6-b690-4558-a6b7-cf69b2641485.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column activity_verb
+		dataType: string
+		lineageTag: 9bd8b3f3-4529-4d02-889d-8d27c2d92508
+		summarizeBy: none
+		sourceColumn: activity_verb
+
+		annotation SummarizationSetBy = Automatic
+
+	column change_type
+		dataType: string
+		lineageTag: ae7ca2fe-5300-46b4-ab6d-da479a2ba359
+		summarizeBy: none
+		sourceColumn: change_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column before_value
+		dataType: string
+		lineageTag: d4ea6f4c-6fac-40fd-823b-62806f319fc5
+		summarizeBy: none
+		sourceColumn: before_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column after_value
+		dataType: string
+		lineageTag: 1cc0aebb-b5f8-43f4-a1ca-d02d84968432
+		summarizeBy: none
+		sourceColumn: after_value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition activities_issues_changes = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    Source = AutodeskConstructionCloud.Feed("United States"),
+				    #"17fefe95-3b69-4d44-bb94-0cbec2173aea" = Source{[Key="17fefe95-3b69-4d44-bb94-0cbec2173aea"]}[Data],
+				    #"Project Extracts" = #"17fefe95-3b69-4d44-bb94-0cbec2173aea"{[Name="Project Extracts"]}[Data],
+				    #"5f587011-eb8e-4072-b4df-f16aee3915aa" = #"Project Extracts"{[Key="5f587011-eb8e-4072-b4df-f16aee3915aa"]}[Data],
+				    activities_issues_changes1 = #"5f587011-eb8e-4072-b4df-f16aee3915aa"{[Name="activities_issues_changes"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(activities_issues_changes1,{{"bim360_account_id", type text}, {"bim360_project_id", type text}, {"activity_id", type text}, {"created_at", type datetime}, {"activity_verb", type text}, {"change_type", type text}, {"before_value", type text}, {"after_value", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

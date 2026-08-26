@@ -1,0 +1,76 @@
+table issues_comments
+	lineageTag: 784b5ea0-f927-410f-bc33-bdc97f315a1f
+
+	column comment_id
+		dataType: string
+		lineageTag: 7578f737-8bd5-4546-9d1a-cdb630a59beb
+		summarizeBy: none
+		sourceColumn: comment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_account_id
+		dataType: string
+		lineageTag: 69257973-34fb-4fbc-8703-e4473420595f
+		summarizeBy: none
+		sourceColumn: bim360_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bim360_project_id
+		dataType: string
+		lineageTag: 7a5ffcbf-cdef-4329-9305-82dd062da539
+		summarizeBy: none
+		sourceColumn: bim360_project_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column issue_id
+		dataType: string
+		lineageTag: 73969b91-1950-416d-aba7-492818bccc4a
+		summarizeBy: none
+		sourceColumn: issue_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column comment_body
+		dataType: string
+		lineageTag: fff3a8a9-05d1-4f32-a812-3c68ccaa9cae
+		summarizeBy: none
+		sourceColumn: comment_body
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: e21c371b-6079-4b50-bda4-72681661ea2a
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: 70622519-b3d7-4ecb-b906-825f45af0e9b
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition issues_comments = m
+		mode: import
+		queryGroup: VENTAS
+		source =
+				let
+				    Source = AutodeskConstructionCloud.Feed("United States"),
+				    #"17fefe95-3b69-4d44-bb94-0cbec2173aea" = Source{[Key="17fefe95-3b69-4d44-bb94-0cbec2173aea"]}[Data],
+				    #"Project Extracts" = #"17fefe95-3b69-4d44-bb94-0cbec2173aea"{[Name="Project Extracts"]}[Data],
+				    #"5f587011-eb8e-4072-b4df-f16aee3915aa" = #"Project Extracts"{[Key="5f587011-eb8e-4072-b4df-f16aee3915aa"]}[Data],
+				    issues_comments1 = #"5f587011-eb8e-4072-b4df-f16aee3915aa"{[Name="issues_comments"]}[Data]
+				in
+				    issues_comments1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
