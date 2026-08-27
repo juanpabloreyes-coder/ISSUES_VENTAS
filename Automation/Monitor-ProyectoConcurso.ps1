@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Continue"
+﻿$ErrorActionPreference = "Continue"
 
 $AutomationRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepositoryRoot = Split-Path -Parent $AutomationRoot
