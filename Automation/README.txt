@@ -41,3 +41,4 @@ Estructura del proyecto PBIP:
 - ISSUES_VENTAS.pbip
 - ISSUES_VENTAS.Report
 - ISSUES_VENTAS.SemanticModel
+Prueba de sincronización Git - 27/08/2026
