@@ -1,0 +1,23 @@
+{
+  "aps": {
+    "account_id": "17fefe95-3b69-4d44-bb94-0cbec2173aea",
+    "project_id": "5f587011-eb8e-4072-b4df-f16aee3915aa"
+  },
+  "proyecto_acc": "VENTAS GCP",
+
+  "callback_url": "http://localhost:8765/callback",
+  "raiz_nombres": ["Project Files", "Archivos de proyecto", "Plans"],
+
+  "categoria": "5D - GCP",
+  "subtipos": ["5D - Especificación", "5D - Omisión", "5D - Modelado", "5D - Parametrización"],
+
+  "equipos_xlsx": "C:\\Users\\Usuario\\DC\\ACCDocs\\GCPEASA\\GCP_TRANSFORMACIÓN_DIGITAL\\Project Files\\01_IMPLEMENTACIÓN_BIM\\0112_SQDCM\\Equipos e integrantes - VENTAS.xlsx",
+  "equipos_hoja": "Integrantes",
+  "alias_personas": {},
+  "solo_integrantes_listado": true,
+
+  "cache": "cache/documentos.json",
+  "json": "Data/VENTAS_ISSUES.json",
+  "plantilla": "Dashboard/Issues-Ventas-Report.template.html",
+  "html": "Dashboard/Issues-Ventas-Report.html"
+}

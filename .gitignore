@@ -17,3 +17,13 @@ Thumbs.db
 Desktop.ini
 ~$*
 *.tmp
+
+# Snapshot y dashboard generados localmente; contienen datos operativos
+Data/VENTAS_ISSUES.json
+Dashboard/Issues-Ventas-Report.html
+Automation/export-state.json
+
+# issues_sync: cache local y log
+cache/
+__pycache__/
+Automation/issues_sync.log
