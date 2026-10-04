@@ -27,3 +27,5 @@ Automation/export-state.json
 cache/
 __pycache__/
 Automation/issues_sync.log
+
+Automation/actualizar_todos*.log
