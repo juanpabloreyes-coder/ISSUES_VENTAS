@@ -1,0 +1,7 @@
+Issues en ACC: 108  ->  en el reporte (5D - GCP con archivo): 95
+Por estado: {'Closed': 48, 'Completed': 3, 'Open': 29, 'Pending': 3, 'In Review': 12}
+Por proyecto: {'GONVAUTO F2': 32, 'GRANJAS JESSY': 40, 'GAP_SJC': 1, 'TUNGALOY': 1, 'GOHSYU': 21}
+Por equipo: {'Diseño C': 1, 'Diseño D': 21, 'Electrico': 2, 'Mecanico': 2, 'Estructuras': 2, 'Diseño B': 2, 'Diseño A': 65}
+AVISO: Issues excluidos porque el asignado no esta en el Excel de integrantes: (sin asignar) (1), Sebastián Salgado Aguirre (3)
+
+SIN CAMBIOS: 95 issues. Se conservan el JSON y el HTML existentes.
