@@ -5,7 +5,7 @@ $Here=Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepositoryRoot=Split-Path -Parent $Here
 $Definition=Join-Path $RepositoryRoot "ISSUES_VENTAS.SemanticModel\definition"
 $Target=Join-Path $Definition "tables\DimArchivoLocal.tmdl"
-$State=Join-Path $Here "filemap-state.json";$Log=Join-Path $Here "automation.log";$Backup=Join-Path $Here "DimArchivoLocal.last-good.tmdl"
+$State=Join-Path $Here "filemap-state.json";$Log=Join-Path $Here "proyecto-concurso.log";$Backup=Join-Path $Here "DimArchivoLocal.last-good.tmdl"
 $Utf8=[Text.UTF8Encoding]::new($false)
 function Log($m){[IO.File]::AppendAllText($Log,"$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  FILEMAP  $m$([Environment]::NewLine)",$Utf8)}
 function Save($h){[IO.File]::WriteAllText($State,($h|ConvertTo-Json -Depth 4),$Utf8)}

@@ -1,0 +1,397 @@
+﻿param(
+    [string]$OutputPath,
+    [string]$TemplatePath,
+    [string]$ReportPath,
+    [switch]$Silent,
+    [switch]$Diagnostic,
+    [int]$Port = 0
+)
+
+$ErrorActionPreference = "Stop"
+$AutomationRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RepositoryRoot = Split-Path -Parent $AutomationRoot
+if ([string]::IsNullOrWhiteSpace($OutputPath)) { $OutputPath = Join-Path $RepositoryRoot "Data\VENTAS_ISSUES.json" }
+if ([string]::IsNullOrWhiteSpace($TemplatePath)) { $TemplatePath = Join-Path $RepositoryRoot "Dashboard\Issues-Ventas-Report.template.html" }
+if ([string]::IsNullOrWhiteSpace($ReportPath)) { $ReportPath = Join-Path $RepositoryRoot "Dashboard\Issues-Ventas-Report.html" }
+$StatePath = Join-Path $AutomationRoot "export-state.json"
+$LogPath = Join-Path $AutomationRoot "automation.log"
+$Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+
+function Write-ExportLog {
+    param([string]$Message)
+    $line = "{0}  EXPORT   {1}" -f (Get-Date).ToString("yyyy-MM-dd HH:mm:ss"), $Message
+    [System.IO.File]::AppendAllText($LogPath, $line + [Environment]::NewLine, $Utf8NoBom)
+    if (-not $Silent) { Write-Host $Message }
+}
+
+function Show-ExportNotification {
+    param([string]$Title, [string]$Message, [ValidateSet("Info","Warning","Error")][string]$Level = "Info")
+    if ($Silent) { return }
+    try {
+        Add-Type -AssemblyName System.Windows.Forms
+        Add-Type -AssemblyName System.Drawing
+        $icon = [System.Windows.Forms.NotifyIcon]::new()
+        $icon.Icon = switch ($Level) {
+            "Warning" { [System.Drawing.SystemIcons]::Warning }
+            "Error" { [System.Drawing.SystemIcons]::Error }
+            default { [System.Drawing.SystemIcons]::Information }
+        }
+        $icon.Visible = $true
+        $icon.BalloonTipTitle = $Title
+        $icon.BalloonTipText = $Message
+        $icon.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::$Level
+        $icon.ShowBalloonTip(7000)
+        Start-Sleep -Milliseconds 900
+        $icon.Dispose()
+    } catch {
+        Write-ExportLog "No se pudo mostrar notificacion: $($_.Exception.Message)"
+    }
+}
+
+function Save-State {
+    param([hashtable]$State)
+    [System.IO.File]::WriteAllText($StatePath, ($State | ConvertTo-Json -Depth 5), $Utf8NoBom)
+}
+
+function Get-PowerBiPorts {
+    $found = @()
+    $root = Join-Path $env:LOCALAPPDATA 'Microsoft\Power BI Desktop\AnalysisServicesWorkspaces'
+
+    if ($Diagnostic -and -not $Silent) { Write-Host "Workspace root: $root" -ForegroundColor DarkGray }
+
+    # Metodo 1: leer directamente los port files que Power BI crea.
+    if (Test-Path -LiteralPath $root) {
+        $files = @(Get-ChildItem -Path $root -Filter 'msmdsrv.port.txt' -File -Recurse -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending)
+        if ($Diagnostic -and -not $Silent) { Write-Host "Port files encontrados: $($files.Count)" -ForegroundColor DarkGray }
+        foreach ($file in $files) {
+            try {
+                $raw = (Get-Content -LiteralPath $file.FullName -Raw -ErrorAction Stop).Trim()
+                if ($Diagnostic -and -not $Silent) { Write-Host "  $($file.FullName) -> $raw" -ForegroundColor DarkGray }
+                $parsed = 0
+                if ([int]::TryParse($raw, [ref]$parsed) -and $parsed -gt 0 -and $found -notcontains $parsed) {
+                    $found += $parsed
+                }
+            } catch {
+                if ($Diagnostic -and -not $Silent) { Write-Host "  No se pudo leer $($file.FullName): $($_.Exception.Message)" -ForegroundColor Yellow }
+            }
+        }
+    }
+
+    # Metodo 2: derivar la carpeta Data desde la linea de comandos de msmdsrv.exe.
+    try {
+        $processes = @(Get-CimInstance Win32_Process -Filter "Name='msmdsrv.exe'" -ErrorAction Stop)
+        if ($Diagnostic -and -not $Silent) { Write-Host "msmdsrv.exe encontrados: $($processes.Count)" -ForegroundColor DarkGray }
+        foreach ($proc in $processes) {
+            if ($Diagnostic -and -not $Silent) { Write-Host "  PID $($proc.ProcessId): $($proc.CommandLine)" -ForegroundColor DarkGray }
+            if (-not $proc.CommandLine) { continue }
+            $m = [regex]::Match($proc.CommandLine, '-s\s+"(?<path>[^"]+)"')
+            if (-not $m.Success) { continue }
+            $dataPath = $m.Groups['path'].Value
+            $candidate = Join-Path $dataPath 'msmdsrv.port.txt'
+            try {
+                if (Test-Path -LiteralPath $candidate) {
+                    $raw = (Get-Content -LiteralPath $candidate -Raw -ErrorAction Stop).Trim()
+                    if ($Diagnostic -and -not $Silent) { Write-Host "  Proceso -> $candidate -> $raw" -ForegroundColor DarkGray }
+                    $parsed = 0
+                    if ([int]::TryParse($raw, [ref]$parsed) -and $parsed -gt 0 -and $found -notcontains $parsed) {
+                        $found += $parsed
+                    }
+                }
+            } catch {
+                if ($Diagnostic -and -not $Silent) { Write-Host "  Error leyendo puerto del proceso: $($_.Exception.Message)" -ForegroundColor Yellow }
+            }
+        }
+    } catch {
+        if ($Diagnostic -and -not $Silent) { Write-Host "No se pudo consultar msmdsrv.exe: $($_.Exception.Message)" -ForegroundColor Yellow }
+    }
+
+    return $found
+}
+
+function Ensure-AdomdClient {
+    $depsRoot = Join-Path $AutomationRoot '.deps'
+    $packageRoot = Join-Path $depsRoot 'packages'
+    $nugetPath = Join-Path $depsRoot 'nuget.exe'
+    $packageVersion = '19.114.12'
+    $packageId = 'Microsoft.AnalysisServices.AdomdClient'
+
+    if (-not (Test-Path -LiteralPath $depsRoot)) {
+        New-Item -ItemType Directory -Path $depsRoot -Force | Out-Null
+    }
+
+    $adomdDll = @(Get-ChildItem -LiteralPath $packageRoot -Recurse -Filter 'Microsoft.AnalysisServices.AdomdClient.dll' -File -ErrorAction SilentlyContinue |
+        Where-Object { $_.FullName -match '\\lib\\net472\\' } |
+        Sort-Object FullName -Descending |
+        Select-Object -First 1)
+
+    if (-not $adomdDll) {
+        Write-ExportLog "ADOMD local no encontrado. Preparando dependencia oficial de Microsoft en Automation\.deps..."
+        if (-not (Test-Path -LiteralPath $nugetPath)) {
+            $nugetUrl = 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe'
+            Write-ExportLog "Descargando nuget.exe (sin instalacion administrativa)..."
+            try {
+                [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                Invoke-WebRequest -Uri $nugetUrl -OutFile $nugetPath -UseBasicParsing -ErrorAction Stop
+            } catch {
+                throw "No se pudo descargar nuget.exe desde $nugetUrl. Detalle: $($_.Exception.Message)"
+            }
+        }
+
+        if (-not (Test-Path -LiteralPath $packageRoot)) {
+            New-Item -ItemType Directory -Path $packageRoot -Force | Out-Null
+        }
+        Write-ExportLog "Descargando $packageId $packageVersion desde NuGet..."
+        $args = @('install',$packageId,'-Version',$packageVersion,'-OutputDirectory',$packageRoot,'-Source','https://api.nuget.org/v3/index.json','-NonInteractive','-DirectDownload')
+        $proc = Start-Process -FilePath $nugetPath -ArgumentList $args -NoNewWindow -Wait -PassThru
+        if ($proc.ExitCode -ne 0) {
+            throw "NuGet termino con codigo $($proc.ExitCode) al descargar ADOMD."
+        }
+
+        $adomdDll = @(Get-ChildItem -LiteralPath $packageRoot -Recurse -Filter 'Microsoft.AnalysisServices.AdomdClient.dll' -File -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -match '\\lib\\net472\\' } |
+            Sort-Object FullName -Descending |
+            Select-Object -First 1)
+    }
+
+    if (-not $adomdDll) {
+        # Fallback: tomar la primera DLL .NET Framework compatible disponible.
+        $adomdDll = @(Get-ChildItem -LiteralPath $packageRoot -Recurse -Filter 'Microsoft.AnalysisServices.AdomdClient.dll' -File -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -notmatch '\\netcoreapp|\\net6|\\net8|\\netstandard' } |
+            Sort-Object FullName -Descending |
+            Select-Object -First 1)
+    }
+    if (-not $adomdDll) { throw 'NuGet finalizo, pero no se encontro Microsoft.AnalysisServices.AdomdClient.dll compatible con Windows PowerShell.' }
+
+    # Permite que .NET encuentre las dependencias NuGet en carpetas hermanas.
+    $script:AdomdPackageRoot = $packageRoot
+    $resolver = [System.ResolveEventHandler]{
+        param($sender,$args)
+        try {
+            $simple = ([System.Reflection.AssemblyName]$args.Name).Name + '.dll'
+            $candidate = Get-ChildItem -LiteralPath $script:AdomdPackageRoot -Recurse -Filter $simple -File -ErrorAction SilentlyContinue |
+                Where-Object { $_.FullName -match '\\lib\\(net472|net48|net462|net461|netstandard2\.0)\\' } |
+                Select-Object -First 1
+            if ($candidate) { return [System.Reflection.Assembly]::LoadFrom($candidate.FullName) }
+        } catch { }
+        return $null
+    }
+    [AppDomain]::CurrentDomain.add_AssemblyResolve($resolver)
+
+    try {
+        [void][System.Reflection.Assembly]::LoadFrom($adomdDll.FullName)
+        $type = [Type]::GetType('Microsoft.AnalysisServices.AdomdClient.AdomdConnection, Microsoft.AnalysisServices.AdomdClient', $false)
+        if (-not $type) {
+            $type = [Microsoft.AnalysisServices.AdomdClient.AdomdConnection]
+        }
+        Write-ExportLog "ADOMD cargado localmente: $($adomdDll.FullName)"
+    } catch {
+        throw "Se encontro ADOMD, pero no se pudo cargar. Archivo: $($adomdDll.FullName). Detalle: $($_.Exception.Message)"
+    }
+}
+
+function Open-AdomdConnection {
+    param([int]$Port,[string]$Catalog)
+    $parts = @("Data Source=localhost:$Port", 'Connect Timeout=10')
+    if (-not [string]::IsNullOrWhiteSpace($Catalog)) { $parts += "Initial Catalog=$Catalog" }
+    $connectionString = ($parts -join ';') + ';'
+    $conn = New-Object Microsoft.AnalysisServices.AdomdClient.AdomdConnection($connectionString)
+    try {
+        $conn.Open()
+        return $conn
+    } catch {
+        $conn.Dispose()
+        throw "No se pudo abrir ADOMD en localhost:$Port$(if($Catalog){' / '+$Catalog}). Detalle: $($_.Exception.Message)"
+    }
+}
+
+function Get-Catalogs {
+    param([int]$Port)
+    $conn = Open-AdomdConnection -Port $Port -Catalog $null
+    try {
+        $ds = $conn.GetSchemaDataSet('DBSCHEMA_CATALOGS',$null)
+        $result = New-Object System.Collections.Generic.List[string]
+        foreach ($row in $ds.Tables[0].Rows) {
+            $name = [string]$row['CATALOG_NAME']
+            if (-not [string]::IsNullOrWhiteSpace($name)) { $result.Add($name) }
+        }
+        return @($result)
+    } finally {
+        if ($conn.State -ne [System.Data.ConnectionState]::Closed) { $conn.Close() }
+        $conn.Dispose()
+    }
+}
+
+function Test-VentasTable {
+    param([int]$Port,[string]$Catalog)
+    $conn = $null
+    try {
+        $conn = Open-AdomdConnection -Port $Port -Catalog $Catalog
+        $cmd = $conn.CreateCommand()
+        $cmd.CommandTimeout = 10
+        $cmd.CommandText = 'EVALUATE ROW("Rows", COUNTROWS(''VENTAS_ISSUES''))'
+        $reader = $cmd.ExecuteReader()
+        $ok = $reader.Read()
+        $reader.Close()
+        return $ok
+    } catch {
+        if ($Diagnostic -and -not $Silent) { Write-Host "  Catalogo descartado: $Catalog -> $($_.Exception.Message)" -ForegroundColor DarkGray }
+        return $false
+    } finally {
+        if ($conn) {
+            if ($conn.State -ne [System.Data.ConnectionState]::Closed) { $conn.Close() }
+            $conn.Dispose()
+        }
+    }
+}
+
+function Find-VentasModel {
+    $ports = if ($Port -gt 0) { @($Port) } else { @(Get-PowerBiPorts) }
+    if ($Port -gt 0) { Write-ExportLog "Puerto indicado manualmente: $Port" }
+    if (@($ports).Count -eq 0) {
+        throw 'No se encontro una instancia local de Analysis Services de Power BI. Abre ISSUES_VENTAS.pbip, espera a que cargue y vuelve a ejecutar.'
+    }
+    Write-ExportLog "Instancias locales detectadas: $(@($ports) -join ', ')"
+    $errors = New-Object System.Collections.Generic.List[string]
+    foreach ($p in @($ports)) {
+        try {
+            $catalogs = @(Get-Catalogs -Port ([int]$p))
+            if ($Diagnostic -and -not $Silent) { Write-Host "Puerto $p - catalogos: $($catalogs -join ', ')" }
+            foreach ($catalog in $catalogs) {
+                if (Test-VentasTable -Port ([int]$p) -Catalog $catalog) { return @{ Port=[int]$p; Catalog=$catalog } }
+            }
+        } catch { $errors.Add("Puerto $p -> $($_.Exception.Message)") }
+    }
+    if ($errors.Count -gt 0) { throw "Power BI esta abierto, pero ADOMD no pudo consultar el modelo. Detalle: $($errors -join ' || ')" }
+    throw 'Se encontraron instancias de Power BI, pero ninguna contiene la tabla VENTAS_ISSUES. Verifica que ISSUES_VENTAS.pbip sea el archivo abierto y que hayas usado Cerrar y aplicar.'
+}
+
+function Convert-DbValue {
+    param($Value)
+    if ($null -eq $Value -or $Value -is [System.DBNull]) { return $null }
+    if ($Value -is [datetime]) { return $Value.ToString("yyyy-MM-ddTHH:mm:ss.fffK") }
+    return $Value
+}
+
+function Read-VentasIssues {
+    param([int]$Port,[string]$Catalog)
+    $dax = @'
+EVALUATE
+SELECTCOLUMNS(
+    'VENTAS_ISSUES',
+    "ID", 'VENTAS_ISSUES'[ID],
+    "Title", 'VENTAS_ISSUES'[Title],
+    "Status", 'VENTAS_ISSUES'[Status],
+    "Category", 'VENTAS_ISSUES'[Category],
+    "Type", 'VENTAS_ISSUES'[Type],
+    "Assigned to", 'VENTAS_ISSUES'[Assigned to],
+    "Created on", 'VENTAS_ISSUES'[Created on],
+    "Due date", 'VENTAS_ISSUES'[Due date],
+    "Updated on", 'VENTAS_ISSUES'[Updated on],
+    "Closed at", 'VENTAS_ISSUES'[Closed at],
+    "Disciplina", 'VENTAS_ISSUES'[Disciplina],
+    "Equipo", 'VENTAS_ISSUES'[Equipo],
+    "ProyectoConcurso", 'VENTAS_ISSUES'[ProyectoConcurso]
+)
+'@
+    $conn = Open-AdomdConnection -Port $Port -Catalog $Catalog
+    try {
+        Write-ExportLog "Conectado por ADOMD local a localhost:$Port / $Catalog"
+        $cmd = $conn.CreateCommand()
+        $cmd.CommandTimeout = 90
+        $cmd.CommandText = $dax
+        $reader = $cmd.ExecuteReader()
+        $list = New-Object System.Collections.Generic.List[object]
+        while ($reader.Read()) {
+            $row = [ordered]@{}
+            for ($i=0; $i -lt $reader.FieldCount; $i++) {
+                $name = [string]$reader.GetName($i)
+                if ($name -match '^.*\[(?<n>[^\]]+)\]$') { $name = $Matches['n'] }
+                $row[$name] = Convert-DbValue $reader.GetValue($i)
+            }
+            $list.Add([pscustomobject]$row)
+        }
+        $reader.Close()
+        return @($list)
+    } finally {
+        if ($conn.State -ne [System.Data.ConnectionState]::Closed) { $conn.Close() }
+        $conn.Dispose()
+    }
+}
+
+function Get-Hash {
+    param([string]$Text)
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try { return ([BitConverter]::ToString($sha.ComputeHash($Utf8NoBom.GetBytes($Text)))).Replace('-','').ToLowerInvariant() }
+    finally { $sha.Dispose() }
+}
+
+function Write-AtomicText {
+    param([string]$Path,[string]$Text)
+    $dir = Split-Path -Parent $Path
+    if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
+    $tmp = "$Path.tmp"
+    [System.IO.File]::WriteAllText($tmp,$Text,$Utf8NoBom)
+    Move-Item -LiteralPath $tmp -Destination $Path -Force
+}
+
+try {
+    Ensure-AdomdClient
+    Write-ExportLog "Buscando el modelo VENTAS_ISSUES abierto en Power BI Desktop..."
+    $model = Find-VentasModel
+    Write-ExportLog "Modelo encontrado: puerto $($model.Port), catalogo $($model.Catalog)."
+    $rows = @(Read-VentasIssues -Port $model.Port -Catalog $model.Catalog)
+    $generatedAt = (Get-Date).ToString("o")
+    $snapshot = [ordered]@{
+        generatedAt = $generatedAt
+        source = "Power BI Desktop - VENTAS_ISSUES"
+        rowCount = $rows.Count
+        rows = $rows
+    }
+    $jsonPretty = $snapshot | ConvertTo-Json -Depth 7
+    $jsonCompact = $snapshot | ConvertTo-Json -Depth 7 -Compress
+    $dataHash = Get-Hash -Text $jsonCompact
+
+    $previousHash = $null
+    if (Test-Path -LiteralPath $StatePath) {
+        try { $previousHash = [string](([System.IO.File]::ReadAllText($StatePath) | ConvertFrom-Json).DataHash) } catch { }
+    }
+
+    if ($dataHash -ne $previousHash -or -not (Test-Path -LiteralPath $OutputPath)) {
+        Write-AtomicText -Path $OutputPath -Text $jsonPretty
+        if (Test-Path -LiteralPath $TemplatePath) {
+            $template = [System.IO.File]::ReadAllText($TemplatePath)
+            if (-not $template.Contains('__ISSUES_DATA_JSON__')) { throw "La plantilla no contiene __ISSUES_DATA_JSON__." }
+            $safeJson = $jsonCompact.Replace('</','<\/').Replace([char]0x2028,'\u2028').Replace([char]0x2029,'\u2029')
+            $report = $template.Replace('__ISSUES_DATA_JSON__',$safeJson)
+            Write-AtomicText -Path $ReportPath -Text $report
+        }
+        Save-State @{ LastChecked=$generatedAt; LastUpdated=$generatedAt; RowCount=$rows.Count; DataHash=$dataHash; Port=$model.Port; Catalog=$model.Catalog; Status="Actualizado"; LastError=$null }
+        Write-ExportLog "Snapshot actualizado: $($rows.Count) issues."
+        Write-ExportLog "JSON: $OutputPath"
+        Write-ExportLog "HTML: $ReportPath"
+        Show-ExportNotification -Title "Issues Ventas actualizado" -Message "$($rows.Count) issues exportados al dashboard."
+    } else {
+        Save-State @{ LastChecked=$generatedAt; LastUpdated=$generatedAt; RowCount=$rows.Count; DataHash=$dataHash; Port=$model.Port; Catalog=$model.Catalog; Status="Sin cambios"; LastError=$null }
+        Write-ExportLog "Sin cambios en VENTAS_ISSUES: $($rows.Count) issues."
+    }
+    if (-not $Silent) { Write-Host "EXPORTACION CORRECTA" -ForegroundColor Green }
+    exit 0
+} catch {
+    $message = $_.Exception.Message
+    Save-State @{ LastChecked=(Get-Date).ToString("o"); Status="Error"; LastError=$message }
+    Write-ExportLog "ERROR: $message"
+    if (-not $Silent) {
+        Write-Host "" 
+        Write-Host "EXPORTACION FALLIDA" -ForegroundColor Red
+        Write-Host $message -ForegroundColor Red
+        Write-Host "Log: $LogPath" -ForegroundColor Yellow
+        if ($message -match 'ADOMD|NuGet|nuget.exe') {
+            Write-Host "" 
+            Write-Host "Diagnostico sugerido:" -ForegroundColor Yellow
+            Write-Host "  Test-NetConnection api.nuget.org -Port 443"
+            Write-Host "  Get-ChildItem '.\Automation\.deps' -Recurse | Select-Object FullName"
+        }
+    }
+    Show-ExportNotification -Title "Error exportando Issues Ventas" -Message $message -Level Error
+    exit 2
+}

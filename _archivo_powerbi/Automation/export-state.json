@@ -1,0 +1,5 @@
+{
+    "LastError":  "ADOMD se descargo, pero no pudo extraerse. Detalle: Excepción al llamar a \"ExtractToDirectory\" con los argumentos \"2\": \"No se puede encontrar una parte de la ruta de acceso \u0027C:\\Users\\Usuario\\DC\\ACCDocs\\GCPEASA\\GCP_TRANSFORMACIÓN_DIGITAL\\Project Files\\01_IMPLEMENTACIÓN_BIM\\0112_SQDCM\\011211_VENTAS\\ISSUES_VENTAS\\Automation\\.deps\\packages\\Microsoft.AnalysisServices.AdomdClient.19.114.12\\build\\net472\\Microsoft.AnalysisServices.AdomdClient.targets\u0027.\"",
+    "Status":  "Error",
+    "LastChecked":  "2026-08-27T13:50:17.1558238-06:00"
+}

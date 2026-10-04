@@ -2,65 +2,696 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>Issues Ventas · Control de proyectos</title>
 <style>
-:root{--ink:#1d1d1f;--muted:#86868b;--line:rgba(0,0,0,.07);--bg:#f5f5f7;--blue:#007aff;--teal:#1aa6a6;--green:#34c759;--amber:#ff9500;--red:#ff3b30;--purple:#af52de;--shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.065)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}button,input,select{font:inherit}.shell{width:min(100%,1720px);min-height:100vh;margin:auto;padding:20px;display:grid;grid-template-columns:280px minmax(0,1fr);gap:22px}.sidebar{position:sticky;top:20px;height:calc(100vh - 40px);padding:27px 24px;background:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.92);border-radius:28px;box-shadow:var(--shadow);backdrop-filter:blur(30px) saturate(180%);overflow:hidden}.brand{display:flex;align-items:center;gap:11px}.mark{width:44px;height:44px;display:grid;place-items:center;border-radius:15px;color:#fff;background:linear-gradient(145deg,var(--blue),var(--purple));font-size:12px;font-weight:800;box-shadow:0 8px 20px rgba(0,122,255,.2)}.brand strong,.brand small{display:block}.brand strong{font-size:13px;letter-spacing:.08em}.brand small{margin-top:4px;color:var(--muted);font-size:10px}.eyebrow{margin:0;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.18em}.summary{margin-top:42px}.donut{--p:0deg;--c:var(--green);position:relative;display:grid;place-items:center;border-radius:50%;background:conic-gradient(var(--c) 0 var(--p),rgba(120,120,128,.16) var(--p) 360deg)}.donut:after{content:"";position:absolute;inset:15%;border-radius:50%;background:#fff}.donut.big{width:160px;height:160px;margin:21px auto}.donut.small{width:72px;height:72px;margin:auto}.donut-inner{position:relative;z-index:1;display:grid;text-align:center}.donut-inner strong{font-size:25px;line-height:1}.donut.small strong{font-size:16px}.donut-inner span{margin-top:5px;color:#91a4b8;font-size:8px;text-transform:uppercase}.counts{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid rgba(0,0,0,.08)}.counts div{padding:13px 5px;text-align:center}.counts div+div{border-left:1px solid rgba(0,0,0,.08)}.counts span,.counts strong{display:block}.counts span{color:var(--muted);font-size:8px;text-transform:uppercase}.counts strong{margin-top:5px;font-size:16px}.roster{margin-top:24px}.roster-list{margin-top:9px;max-height:34vh;overflow:auto;padding-right:3px}.roster-team+.roster-team{margin-top:7px}.roster-team-head{width:100%;display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:7px 8px;border:1px solid rgba(0,0,0,.08);border-radius:9px;background:rgba(0,0,0,.025);color:var(--ink);font-size:10px;font-weight:700;text-align:left;cursor:pointer}.roster-team-head:hover{background:rgba(0,0,0,.06)}.roster-team-head.active{color:#fff;background:var(--blue);border-color:var(--blue)}.roster-team-meta{flex:none;color:var(--muted);font-size:8px}.roster-team-head.active .roster-team-meta{color:#dcecf8}.roster-members{padding:4px 9px 0}.roster-member{display:flex;justify-content:space-between;gap:8px;padding:3px 0;color:#3a3a3c;font-size:9px}.roster-member span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.roster-member b{flex:none;color:var(--blue);font-size:8px;font-variant-numeric:tabular-nums}.side-foot{position:absolute;left:24px;right:24px;bottom:18px;color:var(--muted);font-size:9px}.side-foot small{display:block;margin-top:4px}.dot{width:7px;height:7px;display:inline-block;margin-right:6px;border-radius:50%;background:var(--green)}.main{min-width:0;padding-bottom:38px}.header{position:sticky;top:20px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:16px;padding:17px 20px;border:1px solid rgba(255,255,255,.9);border-radius:24px;background:rgba(255,255,255,.76);box-shadow:var(--shadow);backdrop-filter:blur(30px) saturate(180%)}.header h1{margin:6px 0 0;font-size:34px;line-height:.96;letter-spacing:-.035em}.header h1 span{color:transparent;background:linear-gradient(90deg,var(--blue),var(--purple));background-clip:text;-webkit-background-clip:text}.btn{padding:10px 15px;border:0;border-radius:999px;color:#424245;background:rgba(120,120,128,.12);font-size:10px;font-weight:700;cursor:pointer}.btn:hover{color:#fff;background:var(--blue)}.filters,.discipline,.panel{border:1px solid rgba(0,0,0,.045);background:#fff;border-radius:22px;box-shadow:var(--shadow)}.filters{display:grid;grid-template-columns:minmax(0,2fr) minmax(170px,.65fr) minmax(280px,1fr);gap:12px;padding:14px}.filter-secondary{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,1fr) minmax(240px,.9fr);gap:12px;padding-top:2px}.field label{display:block;margin:0 0 8px 5px;color:var(--muted);font-size:8px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.field select{width:100%;height:39px;padding:8px 12px;border:0;border-radius:999px;color:#424245;background:rgba(120,120,128,.11);outline:none;font-size:10px}.filter-buttons{display:flex;flex-wrap:wrap;gap:5px;padding:5px;border-radius:18px;background:rgba(120,120,128,.11)}.filter-buttons button{padding:8px 12px;border:0;border-radius:999px;color:#424245;background:transparent;font-size:9px;font-weight:650;cursor:pointer}.filter-buttons button:hover{color:var(--blue);background:rgba(255,255,255,.72)}.filter-buttons button.active{color:#fff;background:var(--blue);box-shadow:0 2px 8px rgba(0,122,255,.25)}.discipline-grid{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:12px;margin-top:14px}.discipline{padding:16px 13px 13px}.discipline h3{margin:0 0 9px;color:#424245;font-size:8px;letter-spacing:.08em;text-align:center}.discipline-meta{display:flex;justify-content:space-between;margin-top:9px;color:var(--muted);font-size:8px}.grid{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(410px,1.7fr);gap:14px;margin-top:14px;align-items:start}.charts{display:grid;grid-template-columns:minmax(500px,2fr) minmax(270px,.9fr);gap:14px;margin-top:14px}.panel{min-width:0}.performance-panel,.responsibles-panel{min-height:0}.responsibles-panel{display:flex;flex-direction:column;overflow:hidden}.responsibles-panel .mini-table{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}.panel-head{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px 11px;border-bottom:1px solid rgba(0,0,0,.055)}.panel-head h2,.detail-head h2{margin:3px 0 0;font-size:16px;letter-spacing:-.02em}.panel-head>span,.detail-head small{color:var(--muted);font-size:8px}.legend{display:flex;gap:13px;align-items:center;flex-wrap:wrap;justify-content:flex-end;color:#6e6e73;font-size:8px}.legend-item{display:flex;align-items:center;gap:5px;white-space:nowrap}.legend-swatch{width:17px;height:3px;border-radius:4px}.legend-swatch.blue{background:var(--blue)}.legend-swatch.teal{background:var(--teal)}.ranking{padding:12px 14px}.rank{display:flex;align-items:center;gap:9px;margin-bottom:10px}.rank-no{width:21px;height:21px;display:grid;place-items:center;flex:none;border-radius:50%;color:var(--blue);background:rgba(0,122,255,.1);font-size:8px;font-weight:800}.rank:first-child .rank-no{color:#fff;background:var(--blue)}.rank-info{min-width:0;flex:1}.rank-label{display:flex;justify-content:space-between;gap:8px;margin-bottom:4px;font-size:9px}.bar{height:6px;border-radius:5px;background:rgba(120,120,128,.12);overflow:hidden}.bar i{height:100%;display:block;background:linear-gradient(90deg,var(--teal),var(--blue),var(--purple))}.mini-table{padding:0 12px 8px}.mini-row{display:grid;grid-template-columns:.8fr 1.55fr 48px 55px 58px;gap:7px;align-items:center;min-height:28px;border-bottom:1px solid rgba(0,0,0,.055);color:#424245;font-size:9px}.mini-row.team-summary{background:rgba(0,122,255,.04);font-weight:700}.mini-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mini-row b{text-align:center}.mini-head{min-height:31px;color:var(--muted);font-size:8px;font-weight:800;text-transform:uppercase}.closed{color:var(--green)}.rate{color:var(--blue)}.canvas-wrap{height:250px;padding:10px 12px 13px}.canvas-wrap canvas{width:100%;height:100%}.detail{margin-top:14px}.detail-head{display:flex;justify-content:space-between;align-items:end;gap:16px;padding:16px 18px;border-bottom:1px solid rgba(0,0,0,.055)}.detail-controls{display:grid;grid-template-columns:minmax(150px,.8fr) minmax(220px,1.2fr);gap:9px;align-items:end}.table-wrap{max-height:430px;overflow-y:auto;overflow-x:hidden;border-radius:0}table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:9px}th,td{padding:8px 10px;border-bottom:1px solid rgba(0,0,0,.05);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}th{position:sticky;top:0;z-index:1;color:var(--muted);background:rgba(245,245,247,.97);font-size:8px;text-transform:uppercase}th:nth-child(1){width:8%}th:nth-child(2){width:14%}th:nth-child(3){width:20%}th:nth-child(4){width:10%}th:nth-child(5){width:12%}th:nth-child(6){width:10%}th:nth-child(7){width:17%}th:nth-child(8){width:9%}tbody tr{cursor:pointer;transition:background .12s ease}tbody tr:hover{background:rgba(0,122,255,.045)}tbody tr.selected{background:rgba(0,122,255,.09)}td.title{max-width:none}.pill{display:inline-block;padding:3px 7px;border-radius:999px;color:#5e6d7c;background:#e9eef2;font-size:8px;font-weight:700}.pill.closed,.pill.completed{color:#1f7a36;background:rgba(52,199,89,.14)}.pill.open,.pill.draft,.pill.in-review{color:#a45900;background:rgba(255,149,0,.15)}.issue-description{display:none;margin:0 14px 14px;padding:14px 16px;border:1px solid rgba(0,0,0,.06);border-radius:15px;background:#fafafa}.issue-description.visible{display:block}.issue-description-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:8px}.issue-description h3{margin:0;font-size:12px}.issue-description .meta{color:var(--muted);font-size:8px}.issue-description p{margin:0;color:#424245;font-size:10px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.note{margin:0;padding:9px 13px;color:#84909d;font-size:8px}.empty{padding:30px;color:#8090a0;text-align:center;font-size:10px}@media(max-width:1100px){.discipline-grid{grid-template-columns:repeat(3,1fr)}.charts{grid-template-columns:1fr}}@media(max-width:900px){.shell{display:block;padding:12px}.sidebar{position:relative;top:0;height:auto;margin-bottom:14px}.side-foot{position:static;margin-top:22px}.header{top:10px}.filters,.grid,.filter-secondary{grid-template-columns:1fr}.discipline-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.detail-head{align-items:stretch;flex-direction:column}.detail-controls{grid-template-columns:1fr}.discipline-grid{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+        :root {
+            --page: #f5f5f7;
+            --surface: #fff;
+            --primary: #1d1d1f;
+            --secondary: #424245;
+            --tertiary: #86868b;
+            --blue: #007aff;
+            --purple: #af52de;
+            --teal: #30b0c7;
+            --gray: #8e8e93;
+            --orange: #ff9500;
+            --red: #ff3b30;
+            --line: rgba(0, 0, 0, .06);
+            --control: rgba(120, 120, 128, .12);
+            --shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
+            --spring: cubic-bezier(.2, .85, .25, 1.15);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 122px; }
+        body {
+            margin: 0;
+            min-width: 320px;
+            background: var(--page);
+            color: var(--primary);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Inter, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        button, input { font: inherit; }
+        button { color: inherit; }
+        a { color: inherit; }
+        svg { width: 22px; height: 22px; display: block; }
+
+        .dock-shell {
+            position: fixed;
+            z-index: 1000;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: calc(100vw - 24px);
+        }
+        .dock {
+            display: flex;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 8px 10px 9px;
+            overflow: visible;
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .72);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .09), inset 0 1px 0 rgba(255, 255, 255, .7);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            backdrop-filter: blur(30px) saturate(180%);
+        }
+        .dock-item {
+            position: relative;
+            display: grid;
+            width: 42px;
+            height: 42px;
+            flex: 0 0 42px;
+            place-items: center;
+            border-radius: 13px;
+            color: #6e6e73;
+            text-decoration: none;
+            transform-origin: center top;
+            transition: color .22s ease, background .22s ease, transform .1s ease-out;
+            will-change: transform;
+        }
+        .dock-item:hover { color: var(--primary); background: rgba(120, 120, 128, .09); }
+        .dock-item.active { color: var(--blue); background: rgba(0, 122, 255, .11); }
+        .dock-item.active::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -6px;
+            width: 4px;
+            height: 4px;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: var(--blue);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, .82);
+        }
+        .dock-tooltip {
+            position: absolute;
+            left: 50%;
+            top: calc(100% + 14px);
+            width: max-content;
+            max-width: 190px;
+            padding: 6px 9px;
+            transform: translate(-50%, -4px) scale(.96);
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .9);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, .12);
+            color: var(--secondary);
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.2;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .16s ease, transform .2s var(--spring);
+            -webkit-backdrop-filter: blur(18px);
+            backdrop-filter: blur(18px);
+        }
+        .dock-item:hover .dock-tooltip,
+        .dock-item:focus-visible .dock-tooltip { opacity: 1; transform: translate(-50%, 0) scale(1); }
+
+        .page { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 132px 0 80px; }
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(280px, .7fr);
+            gap: 48px;
+            align-items: center;
+            min-height: 390px;
+            padding: 54px 58px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 18px;
+            color: var(--tertiary);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+        .eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 5px rgba(48, 176, 199, .12); }
+        h1 {
+            margin: 0;
+            font-size: clamp(42px, 5vw, 66px);
+            font-weight: 700;
+            letter-spacing: -.04em;
+            line-height: 1.02;
+        }
+        h1 span { display: block; }
+        .gradient-title {
+            padding-bottom: .08em;
+            background: linear-gradient(100deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .health-title { margin-top: .28em; font-size: .56em; letter-spacing: -.025em; line-height: 1.08; }
+        .hero-copy { max-width: 640px; margin: 24px 0 0; color: var(--secondary); font-size: 17px; line-height: 1.5; }
+        .file-meta { display: grid; gap: 7px; margin-top: 30px; color: var(--tertiary); font-size: 12px; line-height: 1.45; }
+        .file-meta-row { display: flex; gap: 8px; align-items: flex-start; min-width: 0; }
+        .file-meta-row svg { width: 15px; height: 15px; margin-top: 1px; flex: 0 0 auto; }
+        .file-path { overflow-wrap: anywhere; }
+
+        .score-panel { display: grid; justify-items: center; gap: 22px; }
+        .score-ring {
+            --score-color: var(--teal);
+            position: relative;
+            display: grid;
+            width: 210px;
+            height: 210px;
+            place-items: center;
+            border-radius: 50%;
+            background: conic-gradient(var(--score-color) calc(var(--score) * 1%), rgba(120, 120, 128, .11) 0);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .03), 0 12px 32px rgba(0, 0, 0, .08);
+        }
+        .score-ring::before { content: ""; position: absolute; inset: 13px; border-radius: 50%; background: #fff; box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05); }
+        .score-red { --score-color: var(--red); }
+        .score-orange { --score-color: var(--orange); }
+        .score-green { --score-color: var(--teal); }
+        .score-value { position: relative; text-align: center; }
+        .score-number { display: block; font-size: 58px; font-weight: 700; letter-spacing: -.055em; line-height: 1; color: var(--primary); }
+        .score-label { display: block; margin-top: 7px; color: var(--tertiary); font-size: 12px; font-weight: 650; letter-spacing: .02em; }
+        .score-caption { margin: 0; color: var(--secondary); font-size: 13px; text-align: center; }
+
+        .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 14px 0 28px; }
+        .metric {
+            min-height: 126px;
+            padding: 24px 26px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+        .metric-label { display: flex; align-items: center; gap: 8px; color: var(--tertiary); font-size: 12px; font-weight: 650; }
+        .metric-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+        .metric.pass .metric-label { color: var(--teal); }
+        .metric.fail .metric-label { color: var(--red); }
+        .metric.total .metric-label { color: var(--blue); }
+        .metric-number { margin-top: 11px; font-size: 34px; font-weight: 700; letter-spacing: -.035em; line-height: 1; }
+
+        .models-panel {
+            margin-bottom: 34px;
+            padding: 26px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+        .models-panel-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 17px; }
+        .models-panel-title { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -.025em; }
+        .models-panel-copy { margin: 6px 0 0; color: var(--tertiary); font-size: 12px; line-height: 1.45; }
+        .model-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+        .model-option {
+            position: relative;
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid rgba(0, 0, 0, .07);
+            border-radius: 16px;
+            background: #fafafd;
+            color: var(--primary);
+            text-align: left;
+            cursor: pointer;
+            transition: transform .25s var(--spring), background .2s ease, border-color .2s ease, box-shadow .2s ease;
+        }
+        .model-option:hover { transform: translateY(-2px); background: #fff; border-color: rgba(0, 0, 0, .12); }
+        .model-option.active { border-color: rgba(0, 122, 255, .28); background: rgba(0, 122, 255, .055); box-shadow: 0 0 0 3px rgba(0, 122, 255, .08); }
+        .model-option-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 13px; background: rgba(0, 122, 255, .1); color: var(--blue); }
+        .model-option.link .model-option-icon { background: rgba(175, 82, 222, .1); color: var(--purple); }
+        .model-option-icon svg { width: 20px; height: 20px; }
+        .model-option-copy { min-width: 0; }
+        .model-option-kind { display: block; margin-bottom: 4px; color: var(--tertiary); font-size: 9px; font-weight: 750; letter-spacing: .075em; text-transform: uppercase; }
+        .model-option-name { display: block; overflow: hidden; color: var(--primary); font-size: 13px; font-weight: 680; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+        .model-option-path { display: block; margin-top: 4px; overflow: hidden; color: var(--tertiary); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+        .model-option-score { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: var(--control); color: var(--secondary); font-size: 11px; font-weight: 750; font-variant-numeric: tabular-nums; }
+        .model-option.has-failures .model-option-score { background: rgba(255, 59, 48, .1); color: var(--red); }
+        .model-option.no-failures .model-option-score { background: rgba(48, 176, 199, .11); color: var(--teal); }
+        .unavailable-note { display: flex; gap: 9px; align-items: flex-start; margin-top: 14px; padding: 11px 13px; border-radius: 13px; background: rgba(255, 149, 0, .09); color: #9a5b00; font-size: 11px; line-height: 1.45; }
+        .unavailable-note svg { width: 17px; height: 17px; flex: 0 0 auto; }
+        .model-report { display: none; }
+        .model-report.active { display: block; }
+
+        .toolbar {
+            position: sticky;
+            z-index: 100;
+            top: 86px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 44px;
+            padding: 10px;
+            border: 1px solid rgba(0, 0, 0, .06);
+            border-radius: 20px;
+            background: rgba(245, 245, 247, .78);
+            -webkit-backdrop-filter: blur(24px) saturate(160%);
+            backdrop-filter: blur(24px) saturate(160%);
+        }
+        .search-wrap { position: relative; flex: 1 1 320px; max-width: 470px; }
+        .search-wrap > svg { position: absolute; left: 14px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--tertiary); pointer-events: none; }
+        .search-input {
+            width: 100%;
+            height: 42px;
+            padding: 0 42px;
+            border: 0;
+            border-radius: 999px;
+            outline: 0;
+            background: var(--control);
+            color: var(--primary);
+            font-size: 14px;
+            transition: box-shadow .2s ease, background .2s ease;
+        }
+        .search-input::placeholder { color: var(--tertiary); }
+        .search-input:focus { background: rgba(120, 120, 128, .09); box-shadow: 0 0 0 3px rgba(0, 122, 255, .16); }
+        .clear-search {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            display: grid;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            transform: translateY(-50%);
+            place-items: center;
+            border: 0;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--tertiary);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .clear-search.visible { opacity: 1; pointer-events: auto; }
+        .clear-search svg { width: 15px; height: 15px; }
+        .toolbar-actions { display: flex; gap: 8px; align-items: center; }
+        .segmented { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--control); }
+        .segment {
+            min-height: 36px;
+            padding: 0 14px;
+            border: 0;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--secondary);
+            font-size: 12px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: background .2s ease, box-shadow .2s ease, transform .2s var(--spring);
+        }
+        .segment:active, .pill-button:active { transform: scale(.96); }
+        .segment.active { background: #fff; color: var(--primary); box-shadow: 0 1px 2px rgba(0, 0, 0, .12), 0 2px 7px rgba(0, 0, 0, .06); }
+        .pill-button {
+            display: inline-flex;
+            min-height: 42px;
+            gap: 7px;
+            align-items: center;
+            padding: 0 16px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--control);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: transform .2s var(--spring), background .2s ease;
+        }
+        .pill-button:hover { background: rgba(120, 120, 128, .17); }
+        .pill-button.primary { background: var(--blue); color: #fff; }
+        .pill-button.primary:hover { background: #0071eb; }
+        .pill-button svg { width: 17px; height: 17px; }
+
+        .section { margin-top: 58px; }
+        .section.is-hidden, .check-card.is-hidden { display: none; }
+        .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 0 4px 18px; }
+        .section-kicker { margin: 0 0 6px; color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+        .section-title { margin: 0; font-size: clamp(25px, 3vw, 34px); font-weight: 700; letter-spacing: -.03em; line-height: 1.1; }
+        .section-count { flex: 0 0 auto; padding: 7px 11px; border-radius: 999px; background: var(--control); color: var(--tertiary); font-size: 11px; font-weight: 650; }
+        .check-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+        .check-card {
+            --accent: var(--blue);
+            position: relative;
+            min-width: 0;
+            padding: 24px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            transition: transform .32s var(--spring), box-shadow .25s ease, border-color .25s ease;
+        }
+        .check-card:hover { transform: translateY(-3px); border-color: rgba(0, 0, 0, .1); box-shadow: 0 2px 4px rgba(0, 0, 0, .04), 0 14px 34px rgba(0, 0, 0, .08); }
+        .check-card.has-table { grid-column: 1 / -1; }
+        .check-card.pass { --accent: var(--teal); }
+        .check-card.fail { --accent: var(--red); }
+        .check-card.info { --accent: var(--blue); }
+        .card-top { display: flex; gap: 16px; align-items: flex-start; }
+        .status-icon { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border-radius: 13px; background: color-mix(in srgb, var(--accent) 11%, transparent); color: var(--accent); }
+        .status-icon svg { width: 21px; height: 21px; }
+        .card-copy { min-width: 0; flex: 1; }
+        .status-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .status-pill { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .025em; }
+        .status-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+        .result-count { color: var(--tertiary); font-size: 11px; font-variant-numeric: tabular-nums; }
+        .check-title { margin: 11px 0 0; color: var(--primary); font-size: 17px; font-weight: 700; letter-spacing: -.018em; line-height: 1.25; }
+        .check-summary { margin: 10px 0 0; color: var(--secondary); font-size: 13px; line-height: 1.55; }
+
+        details { margin-top: 20px; border-top: 1px solid var(--line); }
+        details > summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 17px 0 0;
+            list-style: none;
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 650;
+            cursor: pointer;
+            user-select: none;
+        }
+        details > summary::-webkit-details-marker { display: none; }
+        .chevron { width: 18px; height: 18px; transition: transform .28s var(--spring); }
+        details[open] .chevron { transform: rotate(180deg); }
+        .table-scroll { margin-top: 14px; overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; white-space: nowrap; }
+        th, td { padding: 11px 14px; border: 0; border-bottom: 1px solid var(--line); text-align: left; }
+        th { position: sticky; top: 0; background: #f9f9fb; color: var(--tertiary); font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+        td { color: var(--secondary); }
+        tbody tr:last-child td { border-bottom: 0; }
+        tbody tr:hover td { background: rgba(0, 122, 255, .035); }
+
+        .empty-state { display: none; margin: 56px 0; padding: 44px; border: 1px solid var(--line); border-radius: 22px; background: #fff; text-align: center; box-shadow: var(--shadow); }
+        .empty-state.visible { display: block; }
+        .empty-state-icon { display: grid; width: 52px; height: 52px; margin: 0 auto 15px; place-items: center; border-radius: 17px; background: rgba(0, 122, 255, .1); color: var(--blue); }
+        .empty-state h2 { margin: 0; font-size: 20px; letter-spacing: -.02em; }
+        .empty-state p { margin: 8px 0 0; color: var(--tertiary); font-size: 13px; }
+        .results-note { margin: 20px 4px 0; color: var(--tertiary); font-size: 12px; }
+        .footer { display: flex; justify-content: space-between; gap: 20px; margin-top: 72px; padding: 26px 4px 0; border-top: 1px solid rgba(0, 0, 0, .08); color: var(--tertiary); font-size: 11px; }
+
+        .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .65s var(--spring); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        :focus-visible { outline: 3px solid rgba(0, 122, 255, .34); outline-offset: 3px; }
+
+        @supports not (color: color-mix(in srgb, red, blue)) {
+            .status-icon { background: rgba(120, 120, 128, .1); }
+        }
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; gap: 42px; padding: 44px; }
+            .score-panel { grid-template-columns: auto 1fr; justify-items: start; }
+            .score-ring { width: 174px; height: 174px; }
+            .score-number { font-size: 48px; }
+            .metrics { grid-template-columns: repeat(2, 1fr); }
+            .model-tabs { grid-template-columns: 1fr; }
+            .toolbar { align-items: stretch; flex-direction: column; }
+            .search-wrap { max-width: none; flex-basis: auto; }
+            .toolbar-actions { justify-content: space-between; }
+        }
+        @media (max-width: 680px) {
+            html { scroll-padding-top: 110px; }
+            .dock-shell { top: 10px; width: calc(100vw - 20px); }
+            .dock { justify-content: flex-start; overflow-x: auto; overflow-y: hidden; border-radius: 18px; scrollbar-width: none; }
+            .dock::-webkit-scrollbar { display: none; }
+            .dock-tooltip { display: none; }
+            .page { width: min(100% - 24px, 1180px); padding-top: 104px; }
+            .hero { min-height: 0; padding: 32px 24px; border-radius: 24px; }
+            h1 { font-size: clamp(39px, 13vw, 60px); }
+            .hero-copy { font-size: 15px; }
+            .score-panel { grid-template-columns: 1fr; justify-items: center; }
+            .metrics { grid-template-columns: 1fr; }
+            .models-panel { padding: 20px; }
+            .metric { min-height: 0; }
+            .toolbar { top: 78px; margin-bottom: 34px; }
+            .toolbar-actions { align-items: stretch; flex-direction: column; }
+            .segmented { width: 100%; }
+            .segment { flex: 1; padding: 0 10px; }
+            .pill-button { justify-content: center; }
+            .check-grid { grid-template-columns: 1fr; }
+            .check-card.has-table { grid-column: auto; }
+            .section { margin-top: 46px; }
+            .footer { flex-direction: column; }
+        }
+        @media (hover: none), (pointer: coarse) {
+            .dock-item { transform: none !important; }
+            .check-card:hover { transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+            .dock-item { transform: none !important; }
+            .reveal { opacity: 1; transform: none; }
+        }
+        @media print {
+            @page { margin: 14mm; }
+            body { background: #fff; }
+            .dock-shell, .toolbar, .pill-button, .empty-state { display: none !important; }
+            .page { width: 100%; padding: 0; }
+            .hero, .metric, .check-card { box-shadow: none; break-inside: avoid; }
+            .hero { min-height: 0; }
+            .reveal { opacity: 1; transform: none; }
+            .section { break-before: auto; }
+            details { break-inside: auto; }
+        }
+    
+/* ===== Piezas propias de ISSUES dentro del lenguaje del Checker ===== */
+.check-card.warn { --accent: var(--orange); }
+.preview-badge { position: fixed; z-index: 1100; right: 18px; bottom: 18px; padding: 8px 14px; border-radius: 999px; background: rgba(29,29,31,.86); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .04em; box-shadow: 0 6px 20px rgba(0,0,0,.18); }
+.filters-body { display: grid; gap: 16px; margin-top: 18px; }
+.filters-row { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 16px; align-items: end; }
+.filters-row.three { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 240px; }
+.f-label { display: block; margin: 0 0 7px; color: var(--tertiary); font-size: 10px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 15px; background: var(--control); }
+.chip { border: 0; padding: 7px 12px; border-radius: 11px; background: transparent; color: var(--secondary); font-size: 12px; font-weight: 650; cursor: pointer; transition: background .2s ease, color .2s ease, box-shadow .2s ease, transform .2s var(--spring); }
+.chip:hover { color: var(--primary); }
+.chip:active { transform: scale(.96); }
+.chip.active { background: #fff; color: var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,.1), 0 3px 10px rgba(0,0,0,.05); }
+.chip small { margin-left: 4px; color: var(--tertiary); font-weight: 600; }
+.sel { width: 100%; height: 40px; padding: 0 34px 0 14px; border: 0; border-radius: 13px; background: var(--control) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center/16px; color: var(--primary); font: inherit; font-size: 13px; font-weight: 600; appearance: none; -webkit-appearance: none; cursor: pointer; }
+.sel:focus { outline: none; box-shadow: 0 0 0 4px rgba(0,122,255,.18); }
+.active-filters { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
+.af { display: inline-flex; align-items: center; gap: 6px; padding: 5px 6px 5px 11px; border-radius: 999px; background: rgba(0,122,255,.1); color: var(--blue); font-size: 11px; font-weight: 700; }
+.af button { display: grid; place-items: center; width: 18px; height: 18px; border: 0; border-radius: 50%; background: rgba(0,122,255,.16); color: var(--blue); cursor: pointer; font-size: 12px; line-height: 1; }
+.check-card.selectable .card-top { cursor: pointer; }
+.check-card.selected { box-shadow: 0 0 0 2px var(--blue), 0 12px 32px rgba(0,122,255,.14); }
+.pick-hint { color: var(--tertiary); font-size: 11px; font-weight: 600; }
+.mini-ring { --p: 0; --c: var(--teal); position: relative; display: grid; width: 92px; height: 92px; flex: 0 0 92px; place-items: center; border-radius: 50%; background: conic-gradient(var(--c) calc(var(--p) * 1%), rgba(120,120,128,.11) 0); }
+.mini-ring::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: #fff; }
+.mini-ring b { position: relative; font-size: 21px; letter-spacing: -.04em; }
+.disc-body { display: flex; gap: 22px; align-items: center; margin-top: 16px; }
+.disc-stats { display: grid; grid-template-columns: repeat(3, auto); gap: 4px 22px; }
+.disc-stats span { color: var(--tertiary); font-size: 10px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.disc-stats b { font-size: 22px; letter-spacing: -.03em; }
+.rank-list { display: grid; gap: 12px; margin-top: 18px; }
+.rank { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; }
+.rank-no { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9px; background: var(--control); color: var(--secondary); font-size: 12px; font-weight: 800; }
+.rank:first-child .rank-no { background: var(--blue); color: #fff; }
+.rank-label { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; }
+.rank-label span { color: var(--secondary); font-weight: 700; font-variant-numeric: tabular-nums; }
+.rank-label small { color: var(--tertiary); font-weight: 600; margin-left: 6px; }
+.bar { height: 7px; margin-top: 7px; border-radius: 99px; background: var(--control); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--teal), var(--blue), var(--purple)); transition: width .6s var(--spring); }
+tr.team-row td { background: #f4f8ff; font-weight: 700; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+th.num { text-align: right; }
+td.ok { color: #248a3d; font-weight: 700; }
+td.rate { color: var(--blue); font-weight: 700; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; color: var(--secondary); font-size: 11px; font-weight: 650; }
+.legend i { width: 18px; height: 3px; border-radius: 3px; background: var(--blue); }
+.legend i.teal { background: #1aa6a6; }
+.canvas-wrap { position: relative; height: 260px; margin-top: 16px; }
+.canvas-wrap canvas { width: 100%; height: 100%; display: block; }
+.detail-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 220px)); gap: 12px; margin-top: 16px; }
+.st { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--control); color: var(--secondary); }
+.st.closed, .st.completed, .st.cerrado, .st.completado { background: rgba(52,199,89,.14); color: #248a3d; }
+.st.open, .st.abierto, .st.pending, .st.pendiente, .st.draft, .st.in-review { background: rgba(255,149,0,.14); color: #b86e00; }
+tr[data-issue] { cursor: pointer; transition: background .15s ease; }
+tr[data-issue]:hover td { background: rgba(0,122,255,.05); }
+tr[data-issue].selected td { background: rgba(0,122,255,.1); }
+td.wrap { white-space: normal; min-width: 220px; }
+.issue-desc { display: none; margin-top: 16px; padding: 18px 20px; border-radius: 16px; background: linear-gradient(135deg, rgba(0,122,255,.07), rgba(175,82,222,.06)); border: 1px solid rgba(0,122,255,.12); }
+.issue-desc.visible { display: block; animation: aparecer .35s var(--spring); }
+@keyframes aparecer { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.issue-desc h4 { margin: 4px 0 0; font-size: 16px; }
+.issue-desc .meta { color: var(--tertiary); font-size: 12px; font-weight: 600; }
+.issue-desc p { margin: 10px 0 0; color: var(--secondary); font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
+.note { margin: 12px 0 0; color: var(--tertiary); font-size: 11px; }
+.empty-mini { padding: 18px; color: var(--tertiary); font-size: 13px; text-align: center; }
+@media (max-width: 900px) { .filters-row, .filters-row.three { grid-template-columns: 1fr; } .detail-controls { grid-template-columns: 1fr; } }
+@media print { .preview-badge { display: none; } }
 </style>
 </head>
 <body>
-<div class="shell">
-<aside class="sidebar">
-<div class="brand"><span class="mark">IV</span><div><strong>ISSUES VENTAS</strong><small>Control de proyectos</small></div></div>
-<section class="summary"><p class="eyebrow">CANTIDAD DE ISSUES</p><div id="mainDonut"></div><div class="counts"><div><span>Total</span><strong id="total">0</strong></div><div><span>Abiertos</span><strong id="open">0</strong></div><div><span>Cerrados</span><strong id="closed">0</strong></div></div></section>
-<section class="roster"><p class="eyebrow" id="rosterTitle">EQUIPOS E INTEGRANTES</p><div class="roster-list" id="rosterList"></div></section>
-<div class="side-foot"><div><span class="dot"></span>Snapshot VENTAS_ISSUES</div><small id="updated"></small></div>
-</aside>
-<main class="main">
-<header class="header"><div><p class="eyebrow">PORTAFOLIO BIM · VENTAS</p><h1>Seguimiento de <span>issues</span></h1></div><button class="btn" id="reset">Restablecer filtros</button></header>
-<section class="filters">
-<div class="field"><label>Proyecto</label><div class="filter-buttons" id="projectButtons"></div></div>
-<div class="field"><label for="monthFilter">Mes de creación</label><select id="monthFilter"></select></div>
-<div class="field"><label>Tipo de issue</label><div class="filter-buttons" id="typeButtons"></div></div>
-<div class="filter-secondary"><div class="field"><label>Equipo</label><div class="filter-buttons" id="teamButtons"></div></div><div class="field"><label>Disciplina</label><div class="filter-buttons" id="disciplineButtons"></div></div><div class="field"><label for="memberFilter">Integrante</label><select id="memberFilter"></select></div></div>
+<div class="dock-shell"><nav class="dock" id="dock" aria-label="Secciones del reporte">
+<a class="dock-item active" href="#summary" data-target="summary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg><span class="dock-tooltip">Resumen</span></a>
+<a class="dock-item" href="#filtros" data-target="filtros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span class="dock-tooltip">Filtros</span></a>
+<a class="dock-item" href="#sec-equipos" data-target="sec-equipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2A4.5 4.5 0 0 1 20.5 19"/></svg><span class="dock-tooltip">Equipos e integrantes</span></a>
+<a class="dock-item" href="#sec-disciplinas" data-target="sec-disciplinas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.5 7.8 7.5 4.1 7.5-4.1"/><path d="M12 12v9"/></svg><span class="dock-tooltip">Disciplinas</span></a>
+<a class="dock-item" href="#sec-desempeno" data-target="sec-desempeno"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 1 1 16 0"/><path d="m12 13 4-4"/><path d="M7 18h10"/></svg><span class="dock-tooltip">Desempeño</span></a>
+<a class="dock-item" href="#sec-tendencias" data-target="sec-tendencias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="m5 15 4-5 4 3 6-7"/></svg><span class="dock-tooltip">Tendencias</span></a>
+<a class="dock-item" href="#sec-detalle" data-target="sec-detalle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span class="dock-tooltip">Detalle de issues</span></a>
+</nav></div>
+
+<main class="page">
+<section class="hero reveal" id="summary">
+  <div class="hero-content">
+    <p class="eyebrow"><span class="eyebrow-dot"></span>Portafolio BIM · VENTAS</p>
+    <h1><span>Seguimiento de issues.</span><span class="gradient-title health-title">Control de proyectos.</span></h1>
+    <p class="hero-copy">Estado de los issues de ACC de cada proyecto de VENTAS: cuántos se abren y se cierran, quién los tiene asignados y cómo avanza cada equipo y disciplina.</p>
+    <div class="file-meta">
+      <div class="file-meta-row"><svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5"/></svg><span class="file-path" id="srcLine"></span></div>
+      <div class="file-meta-row"><svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="updated"></span></div>
+    </div>
+  </div>
+  <div class="score-panel">
+    <div class="score-ring" id="ring" style="--score:0"><div class="score-value"><span class="score-number" id="ringNum">0%</span><span class="score-label">CERRADOS</span></div></div>
+    <p class="score-caption" id="ringCap"></p>
+  </div>
 </section>
-<section class="discipline-grid" id="disciplines"></section>
-<section class="grid"><article class="panel performance-panel" id="rankingPanel"><div class="panel-head"><div><p class="eyebrow">DESEMPEÑO</p><h2>Ranking</h2></div><span>% cerrado</span></div><div class="ranking" id="ranking"></div></article><article class="panel responsibles-panel" id="peoplePanel"><div class="panel-head"><div><p class="eyebrow">RESPONSABLES</p><h2>Issues por equipo y usuario</h2></div><span>Principales responsables</span></div><div class="mini-table" id="people"></div></article></section>
-<section class="charts">
-<article class="panel"><div class="panel-head"><div><p class="eyebrow">VOLUMEN MENSUAL</p><h2>Histórico de issues</h2></div><div class="legend"><span class="legend-item"><i class="legend-swatch blue"></i>Issues creados</span><span class="legend-item"><i class="legend-swatch teal"></i>Issues cerrados</span></div></div><div class="canvas-wrap"><canvas id="history"></canvas></div></article>
-<article class="panel"><div class="panel-head"><div><p class="eyebrow">EFICIENCIA</p><h2>Tendencia</h2></div><div class="legend"><span class="legend-item"><i class="legend-swatch blue"></i>% cerrados</span></div></div><div class="canvas-wrap"><canvas id="rate"></canvas></div></article>
+
+<section class="metrics reveal">
+  <article class="metric total"><div class="metric-label">Total de issues</div><div class="metric-number" id="mTotal">0</div></article>
+  <article class="metric fail"><div class="metric-label">Abiertos</div><div class="metric-number" id="mOpen">0</div></article>
+  <article class="metric pass"><div class="metric-label">Cerrados</div><div class="metric-number" id="mClosed">0</div></article>
+  <article class="metric total"><div class="metric-label">Proyectos · Integrantes</div><div class="metric-number" id="mProj">0</div></article>
 </section>
-<section class="panel detail"><div class="detail-head"><div><p class="eyebrow">DATOS ORGANIZADOS</p><h2>Detalle de issues</h2></div><div class="detail-controls"><div class="field"><label for="detailStatus">Estado del issue</label><select id="detailStatus"></select></div><div class="field"><label for="detailAssignee">Asignado a</label><select id="detailAssignee"></select></div></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>ProyectoConcurso</th><th>Título</th><th>Estado</th><th>Disciplina</th><th>Equipo</th><th>Asignado a</th><th>Creado</th></tr></thead><tbody id="details"></tbody></table></div><div class="issue-description" id="issueDescription"><div class="issue-description-top"><div><p class="eyebrow">DESCRIPCIÓN</p><h3 id="descriptionTitle">Issue seleccionado</h3></div><span class="meta" id="descriptionMeta"></span></div><p id="descriptionText"></p></div><p class="note" id="detailNote"></p></section>
-</main></div>
-<script id="issues-data" type="application/json">__ISSUES_DATA_JSON__</script>
+
+<section class="models-panel reveal" id="filtros">
+  <header class="models-panel-head"><div><h2 class="models-panel-title">Filtros del reporte</h2><p class="models-panel-copy">Todo el reporte (anillo, métricas, equipos, disciplinas, ranking, gráficas y detalle) responde a estos filtros. También puedes hacer clic en un equipo o una disciplina para filtrar.</p></div><span class="section-count" id="viewCount">0 issues en la vista</span></header>
+  <div class="filters-body">
+    <div class="filters-row"><div><span class="f-label">Proyecto</span><div class="chips" id="projectButtons"></div></div><div><label class="f-label" for="monthFilter">Mes de creación</label><select class="sel" id="monthFilter"></select></div></div>
+    <div><span class="f-label">Tipo de issue</span><div class="chips" id="typeButtons"></div></div>
+    <div class="filters-row three"><div><span class="f-label">Equipo</span><div class="chips" id="teamButtons"></div></div><div><span class="f-label">Disciplina</span><div class="chips" id="disciplineButtons"></div></div><div><label class="f-label" for="memberFilter">Integrante</label><select class="sel" id="memberFilter"></select></div></div>
+    <div class="active-filters" id="activeFilters"></div>
+  </div>
+</section>
+
+<section class="toolbar">
+  <label class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input class="search-input" id="search" type="search" autocomplete="off" placeholder="Buscar issue, título, descripción o integrante…"><button class="clear-search" id="clear-search" type="button" aria-label="Limpiar búsqueda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6m0-6-6 6"/></svg></button></label>
+  <div class="toolbar-actions">
+    <div class="segmented" role="group"><button class="segment active" type="button" data-filter="ALL">Todos</button><button class="segment" type="button" data-filter="PASS">Correctos</button><button class="segment" type="button" data-filter="FAIL">Atención</button></div>
+    <button class="pill-button" id="toggle-details" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3-5 5m0-5v5h5M16 21l5-5m0 5v-5h-5"/></svg><span>Expandir</span></button>
+    <button class="pill-button" id="reset" type="button"><span>Restablecer filtros</span></button>
+    <button class="pill-button primary" id="print-report" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V3h10v5"/><rect x="4" y="8" width="16" height="9" rx="2"/><path d="M7 14h10v7H7z"/></svg><span>Imprimir</span></button>
+  </div>
+</section>
+
+<section class="section reveal" id="sec-equipos"><header class="section-heading"><div><p class="section-kicker" data-kicker>Portafolio · Área de revisión</p><h2 class="section-title" id="rosterTitle">EQUIPOS E INTEGRANTES</h2></div><span class="section-count" id="cntEquipos"></span></header><div class="check-grid" id="rosterList"></div></section>
+
+<section class="section reveal" id="sec-disciplinas"><header class="section-heading"><div><p class="section-kicker" data-kicker>Portafolio · Área de revisión</p><h2 class="section-title">DISCIPLINAS</h2></div><span class="section-count" id="cntDisc"></span></header><div class="check-grid" id="disciplines"></div></section>
+
+<section class="section reveal" id="sec-desempeno"><header class="section-heading"><div><p class="section-kicker" data-kicker>Portafolio · Área de revisión</p><h2 class="section-title">DESEMPEÑO</h2></div><span class="section-count">2 checks</span></header><div class="check-grid">
+  <article class="check-card info has-table" id="rankingCard"><div class="card-top"><div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg></div><div class="card-copy"><div class="status-row"><span class="status-pill">Ranking</span><span class="result-count">% cerrado</span></div><h3 class="check-title">Ranking de proyectos</h3><p class="check-summary">Los 5 proyectos con mayor % de issues cerrados en la vista actual.</p></div></div><div class="rank-list" id="ranking"></div></article>
+  <article class="check-card info has-table" id="peopleCard"><div class="card-top"><div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div class="card-copy"><div class="status-row"><span class="status-pill">Responsables</span><span class="result-count" id="peopleCount"></span></div><h3 class="check-title">Issues por equipo y usuario</h3><p class="check-summary">Principales responsables: total, cerrados y % cerrado por equipo y por integrante.</p></div></div><div class="table-scroll" style="max-height:420px"><table><thead><tr><th>Equipo</th><th>Usuario</th><th class="num">Total</th><th class="num">Cerrados</th><th class="num">% cerrado</th></tr></thead><tbody id="people"></tbody></table></div></article>
+</div></section>
+
+<section class="section reveal" id="sec-tendencias"><header class="section-heading"><div><p class="section-kicker" data-kicker>Portafolio · Área de revisión</p><h2 class="section-title">TENDENCIAS</h2></div><span class="section-count">2 checks</span></header><div class="check-grid">
+  <article class="check-card info"><div class="card-top"><div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="M7 16V9M12 16V5M17 16v-4"/></svg></div><div class="card-copy"><div class="status-row"><span class="status-pill">Volumen mensual</span><div class="legend"><span><i></i>Creados</span><span><i class="teal"></i>Cerrados</span></div></div><h3 class="check-title">Histórico de issues</h3></div></div><div class="canvas-wrap"><canvas id="history"></canvas></div></article>
+  <article class="check-card info"><div class="card-top"><div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="m5 15 4-5 4 3 6-7"/></svg></div><div class="card-copy"><div class="status-row"><span class="status-pill">Eficiencia</span><div class="legend"><span><i></i>% cerrados</span></div></div><h3 class="check-title">Tendencia</h3></div></div><div class="canvas-wrap"><canvas id="rate"></canvas></div></article>
+</div></section>
+
+<section class="section reveal" id="sec-detalle"><header class="section-heading"><div><p class="section-kicker" data-kicker>Portafolio · Área de revisión</p><h2 class="section-title">DETALLE DE ISSUES</h2></div><span class="section-count" id="cntDetalle"></span></header><div class="check-grid">
+  <article class="check-card info has-table"><div class="card-top"><div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div><div class="card-copy"><div class="status-row"><span class="status-pill">Datos organizados</span><span class="result-count" id="detailCount"></span></div><h3 class="check-title">Detalle de issues</h3><p class="check-summary">Selecciona un issue para ver su descripción.</p></div></div>
+    <div class="detail-controls"><div><label class="f-label" for="detailStatus">Estado del issue</label><select class="sel" id="detailStatus"></select></div><div><label class="f-label" for="detailAssignee">Asignado a</label><select class="sel" id="detailAssignee"></select></div></div>
+    <div class="table-scroll" style="max-height:560px"><table><thead><tr><th>ID</th><th>Proyecto</th><th>Título</th><th>Estado</th><th>Tipo</th><th>Disciplina</th><th>Equipo</th><th>Asignado a</th><th>Creado</th></tr></thead><tbody id="details"></tbody></table></div>
+    <div class="issue-desc" id="issueDescription"><span class="f-label">Descripción</span><h4 id="descriptionTitle"></h4><span class="meta" id="descriptionMeta"></span><p id="descriptionText"></p></div>
+    <p class="note" id="detailNote"></p>
+  </article>
+</div></section>
+
+<div class="empty-state" id="empty-state"><h2>Sin coincidencias</h2><p>Prueba con otra búsqueda o cambia el filtro seleccionado.</p></div>
+<footer class="footer"><span>Issues · GCPEASA · ISSUES_VENTAS</span><span id="footNote"></span></footer>
+</main>
+
+<script id="issues-data" type="application/json"></script>
 <script>
 (()=>{
-const snapshot=JSON.parse(document.getElementById('issues-data').textContent),CLOSED=new Set(['Closed','Completed','Cerrado','Completado']),OPEN=new Set(['Open','Draft','In Review','Pending','Abierto','Pendiente']);
+const snapshot=JSON.parse(document.getElementById('issues-data').textContent),CLOSED=new Set(['Closed','Completed','Cerrado','Completado']);
 const MONTHS=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),txt=v=>v==null?'':String(v).trim();
 const rawRows=Array.isArray(snapshot.rows)?snapshot.rows:[],val=(r,...names)=>{for(const n of names)if(Object.prototype.hasOwnProperty.call(r,n)&&r[n]!=null)return r[n];return null};
 const rows=rawRows.map(r=>({id:txt(val(r,'ID','id')),title:txt(val(r,'Title','title')),description:txt(val(r,'Description','Descripción','description')),status:txt(val(r,'Status','status'))||'Sin estado',type:txt(val(r,'Type','type'))||'Sin tipo',assignee:txt(val(r,'Assigned to','assignee'))||'Sin asignar',createdOn:val(r,'Created on','createdOn'),closedAt:val(r,'Closed at','closedAt'),discipline:txt(val(r,'Disciplina','discipline'))||'SIN DISCIPLINA',team:txt(val(r,'Equipo','team'))||'SIN EQUIPO',project:txt(val(r,'ProyectoConcurso','project'))||'SIN PROYECTO'}));
-const key=d=>{const s=txt(d),m=s.match(/^(\d{4})-(\d{2})/);if(m)return`${m[1]}-${m[2]}`;const x=new Date(s);return isNaN(x)?null:`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}`},identity=r=>`${r.project}|||${r.id}`,distinct=a=>new Set(a.map(identity)).size,metric=a=>{const total=distinct(a),closed=distinct(a.filter(r=>CLOSED.has(r.status))),open=Math.max(0,total-closed);return{total,closed,open,rate:total?closed/total:0}},pct=n=>`${Math.round((n||0)*100)}%`,number=n=>(n||0).toLocaleString('es-MX'),color=r=>r>=.8?'#34c759':r>=.65?'#ff9500':'#ff3b30',donut=(m,big=false)=>`<div class="donut ${big?'big':'small'}" style="--p:${m.rate*360}deg;--c:${color(m.rate)}"><div class="donut-inner"><strong>${pct(m.rate)}</strong><span>cerrados</span></div></div>`;
+const key=d=>{const s=txt(d),m=s.match(/^(\d{4})-(\d{2})/);if(m)return`${m[1]}-${m[2]}`;const x=new Date(s);return isNaN(x)?null:`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}`},identity=r=>`${r.project}|||${r.id}`,distinct=a=>new Set(a.map(identity)).size,metric=a=>{const total=distinct(a),closed=distinct(a.filter(r=>CLOSED.has(r.status))),open=Math.max(0,total-closed);return{total,closed,open,rate:total?closed/total:0}},pct=n=>`${Math.round((n||0)*100)}%`,number=n=>(n||0).toLocaleString('es-MX');
+const nivel=r=>r>=.8?'pass':r>=.65?'warn':'fail',COL={pass:'var(--teal)',warn:'var(--orange)',fail:'var(--red)'},LBL={pass:'Correcto',warn:'Atención',fail:'Requiere atención'};
+const ICON={pass:'<path d="m5 12.5 4.2 4.2L19 7"/>',warn:'<path d="M12 4 21 20H3L12 4Z"/><path d="M12 10v4"/><path d="M12 17h.01"/>',fail:'<path d="M12 4 21 20H3L12 4Z"/><path d="M12 10v4"/><path d="M12 17h.01"/>'};
+const icon=n=>`<div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg></div>`;
+const chevron='<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
 const projects=[...new Set(rows.map(r=>r.project))].sort((a,b)=>a.localeCompare(b,'es')),types=[...new Set(rows.map(r=>r.type))].sort((a,b)=>a.localeCompare(b,'es')),disciplines=[...new Set(rows.map(r=>r.discipline))].sort((a,b)=>a.localeCompare(b,'es')),monthKeys=[...new Set(rows.map(r=>key(r.createdOn)).filter(Boolean))].sort();
-let state={project:'Todos',month:'Todos',type:'Todos',team:'Todos',discipline:'Todos',member:'Todos',detailStatus:'Todos',detailAssignee:'Todos',selectedIssue:null};
+const INI={project:'Todos',month:'Todos',type:'Todos',team:'Todos',discipline:'Todos',member:'Todos',detailStatus:'Todos',detailAssignee:'Todos',selectedIssue:null};
+let state={...INI},salud='ALL',busca='';
 function baseRows(){return rows.filter(r=>(state.project==='Todos'||r.project===state.project)&&(state.month==='Todos'||key(r.createdOn)===state.month)&&(state.type==='Todos'||r.type===state.type)&&(state.discipline==='Todos'||r.discipline===state.discipline))}
 function filtered(){return baseRows().filter(r=>(state.team==='Todos'||r.team===state.team)&&(state.member==='Todos'||r.assignee===state.member))}
-function buttons(id,values,current,fn){$(id).innerHTML=['Todos',...values].map(v=>`<button type="button" class="${v===current?'active':''}" data-value="${esc(v)}">${esc(v)}</button>`).join('');$(id).querySelectorAll('button').forEach(b=>b.onclick=()=>fn(b.dataset.value))}
+function chips(id,values,current,fn,count){$(id).innerHTML=['Todos',...values].map(v=>`<button type="button" class="chip${v===current?' active':''}" data-value="${esc(v)}">${esc(v)}${count?`<small>${count(v)}</small>`:''}</button>`).join('');$(id).querySelectorAll('button').forEach(b=>b.onclick=()=>fn(b.dataset.value))}
 function select(id,values,current,format=v=>v){const all=['Todos',...values];if(!all.includes(current))current='Todos';$(id).innerHTML=all.map(v=>`<option value="${esc(v)}">${esc(v==='Todos'?'Todos':format(v))}</option>`).join('');$(id).value=current;return current}
 function availableDisciplines(){const source=rows.filter(r=>(state.project==='Todos'||r.project===state.project)&&(state.month==='Todos'||key(r.createdOn)===state.month)&&(state.type==='Todos'||r.type===state.type));return[...new Set(source.map(r=>r.discipline).filter(d=>d&&d!=='SIN DISCIPLINA'))].sort((a,b)=>a.localeCompare(b,'es'))}
 function availableTeams(){return[...new Set(baseRows().map(r=>r.team).filter(t=>t!=='SIN EQUIPO'))].sort((a,b)=>a.localeCompare(b,'es'))}
 function availableMembers(){const base=baseRows().filter(r=>state.team==='Todos'||r.team===state.team);return[...new Set(base.map(r=>r.assignee).filter(x=>x&&x!=='Sin asignar'))].sort((a,b)=>a.localeCompare(b,'es'))}
-function renderRoster(){const base=baseRows(),teams=availableTeams();if(state.team!=='Todos'&&!teams.includes(state.team))state.team='Todos';$('rosterTitle').textContent=state.project==='Todos'?'EQUIPOS E INTEGRANTES':`EQUIPO EN ${state.project}`;$('rosterList').innerHTML=teams.map(team=>{const rs=base.filter(r=>r.team===team),tm=metric(rs),people=[...new Set(rs.map(r=>r.assignee))].sort((a,b)=>a.localeCompare(b,'es'));return`<div class="roster-team"><button class="roster-team-head${state.team===team?' active':''}" data-team="${esc(team)}"><span>${esc(team)}</span><span class="roster-team-meta">${tm.closed}/${tm.total} · ${pct(tm.rate)}</span></button><div class="roster-members">${people.map(p=>{const pm=metric(rs.filter(r=>r.assignee===p));return`<div class="roster-member"><span title="${esc(p)}">${esc(p)}</span><b>${pm.closed}/${pm.total} · ${pct(pm.rate)}</b></div>`}).join('')}</div></div>`}).join('')||'<div class="empty">Sin equipos</div>';$('rosterList').querySelectorAll('[data-team]').forEach(b=>b.onclick=()=>{state.team=state.team===b.dataset.team?'Todos':b.dataset.team;state.member='Todos';render()})}
+const monthName=k=>`${MONTHS[+k.slice(5)-1]} ${k.slice(0,4)}`;
+function card({nivel:n,pill,count,title,summary,body,attrs='',cls=''}){return`<article class="check-card ${n} ${cls}" data-status="${n==='pass'?'PASS':'FAIL'}" ${attrs}><div class="card-top">${icon(n)}<div class="card-copy"><div class="status-row"><span class="status-pill">${pill}</span><span class="result-count">${count}</span></div><h3 class="check-title">${title}</h3><p class="check-summary">${summary}</p></div></div>${body||''}</article>`}
+function renderRoster(){const base=baseRows(),teams=availableTeams();if(state.team!=='Todos'&&!teams.includes(state.team))state.team='Todos';$('rosterTitle').textContent=state.project==='Todos'?'EQUIPOS E INTEGRANTES':`EQUIPO EN ${state.project}`;$('cntEquipos').textContent=`${teams.length} ${teams.length===1?'check':'checks'}`;
+$('rosterList').innerHTML=teams.map(team=>{const rs=base.filter(r=>r.team===team),tm=metric(rs),people=[...new Set(rs.map(r=>r.assignee))].sort((a,b)=>a.localeCompare(b,'es')),n=nivel(tm.rate);
+const tabla=`<details><summary><span>Ver ${people.length} ${people.length===1?'integrante':'integrantes'}</span>${chevron}</summary><div class="table-scroll"><table><thead><tr><th>Integrante</th><th class="num">Total</th><th class="num">Cerrados</th><th class="num">Abiertos</th><th class="num">% cerrado</th></tr></thead><tbody>${people.map(p=>{const pm=metric(rs.filter(r=>r.assignee===p));return`<tr><td>${esc(p)}</td><td class="num">${pm.total}</td><td class="num ok">${pm.closed}</td><td class="num">${pm.open}</td><td class="num rate">${pct(pm.rate)}</td></tr>`}).join('')}</tbody></table></div></details>`;
+return card({nivel:n,pill:LBL[n],count:`${tm.closed}/${tm.total} · ${pct(tm.rate)}`,title:esc(team),summary:`${people.length} ${people.length===1?'integrante':'integrantes'} · ${tm.open} abiertos · ${tm.closed} cerrados. <span class="pick-hint">${state.team===team?'Filtrando este equipo · clic para quitar':'Clic para filtrar'}</span>`,body:tabla,attrs:`data-team="${esc(team)}" data-search="${esc((team+' '+people.join(' ')).toLowerCase())}"`,cls:'selectable'+(state.team===team?' selected':'')})}).join('')||'<div class="empty-mini">Sin equipos</div>';
+$('rosterList').querySelectorAll('[data-team] .card-top').forEach(b=>b.onclick=()=>{const t=b.parentElement.dataset.team;state.team=state.team===t?'Todos':t;state.member='Todos';state.selectedIssue=null;render()})}
 function monthRange(start,end){const out=[],d=new Date(`${start}-01T00:00:00Z`),limit=new Date(`${end}-01T00:00:00Z`);while(d<=limit){out.push(`${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}`);d.setUTCMonth(d.getUTCMonth()+1)}return out}
 function trendRows(){const source=rows.filter(r=>(state.project==='Todos'||r.project===state.project)&&(state.type==='Todos'||r.type===state.type)&&(state.team==='Todos'||r.team===state.team)&&(state.discipline==='Todos'||r.discipline===state.discipline)&&(state.member==='Todos'||r.assignee===state.member));const keys=[...new Set(source.map(r=>key(r.createdOn)).filter(Boolean))].sort();if(!keys.length)return[];return monthRange(keys[0],keys.at(-1)).map(k=>({label:`${MONTHS[+k.slice(5)-1]} ${k.slice(2,4)}`,...metric(source.filter(r=>key(r.createdOn)===k))}))}
-function drawChart(canvas,points,rateOnly=false){const rect=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1,w=Math.max(300,rect.width),h=Math.max(175,rect.height);canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext('2d');c.scale(dpr,dpr);c.clearRect(0,0,w,h);const pad={l:46,r:20,t:28,b:36},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;c.font='9px Segoe UI';c.lineCap='round';c.lineJoin='round';if(!points.length){c.fillStyle='#86868b';c.fillText('Sin datos',pad.l,pad.t+20);return}const max=rateOnly?1:Math.max(1,...points.map(p=>Math.max(p.total,p.closed)));for(let i=0;i<=3;i++){const yy=pad.t+ph*i/3;c.strokeStyle='rgba(120,120,128,.18)';c.lineWidth=1;c.beginPath();c.moveTo(pad.l,yy);c.lineTo(w-pad.r,yy);c.stroke();const v=max*(1-i/3);c.fillStyle='#708090';c.font='9px Segoe UI';c.fillText(rateOnly?pct(v):number(Math.round(v)),5,yy+3)}const x=i=>pad.l+(points.length===1?pw/2:pw*i/(points.length-1)),y=v=>pad.t+ph*(1-v/max);const series=rateOnly?[['rate','#007aff']]:[['total','#007aff'],['closed','#1aa6a6']];series.forEach(([field,col])=>{c.strokeStyle=col;c.lineWidth=2.5;c.beginPath();points.forEach((p,i)=>{const xx=x(i),yy=y(p[field]);i?c.lineTo(xx,yy):c.moveTo(xx,yy)});c.stroke();points.forEach((p,i)=>{const xx=x(i),yy=y(p[field]);c.fillStyle='#fff';c.strokeStyle=col;c.lineWidth=2;c.beginPath();c.arc(xx,yy,3.8,0,Math.PI*2);c.fill();c.stroke();c.fillStyle=col;c.font='bold 9px Segoe UI';const label=rateOnly?pct(p.rate):number(p[field]);const tw=c.measureText(label).width;let lx=xx-tw/2,ly=yy-10;if(!rateOnly&&field==='closed'){ly=yy+15;if(ly>h-pad.b-2)ly=yy-10;if(p.closed===p.total){lx=xx+7;ly=yy+15;if(ly>h-pad.b-2)ly=yy-10}}if(!rateOnly&&field==='total'&&p.closed===p.total){lx=xx-tw-7;ly=yy-10}c.fillText(label,Math.max(2,Math.min(w-tw-2,lx)),Math.max(10,Math.min(h-pad.b+14,ly)));c.font='9px Segoe UI'})});c.fillStyle='#708090';c.font='9px Segoe UI';points.forEach((p,i)=>{if(points.length<=10||i%Math.ceil(points.length/8)===0||i===points.length-1)c.fillText(p.label,x(i)-12,h-8)})}
-function syncPerformancePanels(){const left=$('rankingPanel'),right=$('peoplePanel');if(!left||!right)return;right.style.height='auto';requestAnimationFrame(()=>{const h=Math.ceil(left.getBoundingClientRect().height);right.style.height=`${h}px`})}
-function renderDescription(r){const box=$('issueDescription');if(!r){box.classList.remove('visible');return}$('descriptionTitle').textContent=`${r.id||'Issue'} · ${r.title||'Sin título'}`;$('descriptionMeta').textContent=`${r.project} · ${r.team} · ${r.assignee}`;$('descriptionText').textContent=r.description||'Este issue no tiene descripción registrada.';box.classList.add('visible')}
-function render(){buttons('projectButtons',projects,state.project,v=>{state.project=v;state.team='Todos';state.discipline='Todos';state.member='Todos';state.selectedIssue=null;render()});buttons('typeButtons',types,state.type,v=>{state.type=v;state.team='Todos';state.discipline='Todos';state.member='Todos';state.selectedIssue=null;render()});state.month=select('monthFilter',monthKeys,state.month,k=>`${MONTHS[+k.slice(5)-1]} ${k.slice(0,4)}`);const availableDs=availableDisciplines();if(state.discipline!=='Todos'&&!availableDs.includes(state.discipline))state.discipline='Todos';buttons('disciplineButtons',availableDs,state.discipline,v=>{state.discipline=v;state.team='Todos';state.member='Todos';state.selectedIssue=null;render()});const teams=availableTeams();if(state.team!=='Todos'&&!teams.includes(state.team))state.team='Todos';buttons('teamButtons',teams,state.team,v=>{state.team=v;state.member='Todos';state.selectedIssue=null;render()});const members=availableMembers();state.member=select('memberFilter',members,state.member);renderRoster();const data=filtered(),m=metric(data);$('mainDonut').innerHTML=donut(m,true);$('total').textContent=number(m.total);$('open').textContent=number(m.open);$('closed').textContent=number(m.closed);$('disciplines').innerHTML=disciplines.map(d=>{const dm=metric(data.filter(r=>r.discipline===d));return`<article class="discipline"><h3>${esc(d)}</h3>${donut(dm)}<div class="discipline-meta"><span>${dm.closed} cerrados</span><span>${dm.total} total</span></div></article>`}).join('');const ranking=projects.map(p=>({label:p,...metric(rows.filter(r=>r.project===p&&(state.month==='Todos'||key(r.createdOn)===state.month)&&(state.type==='Todos'||r.type===state.type)&&(state.discipline==='Todos'||r.discipline===state.discipline)&&(state.team==='Todos'||r.team===state.team)&&(state.member==='Todos'||r.assignee===state.member)))})).filter(x=>x.total).sort((a,b)=>b.rate-a.rate||b.closed-a.closed).slice(0,5);$('ranking').innerHTML=ranking.map((x,i)=>`<div class="rank"><span class="rank-no">${i+1}</span><div class="rank-info"><div class="rank-label"><strong>${esc(x.label)}</strong><span>${pct(x.rate)}</span></div><div class="bar"><i style="width:${x.rate*100}%"></i></div></div></div>`).join('')||'<div class="empty">Sin datos</div>';
-const teamGroups=new Map();data.forEach(r=>teamGroups.set(r.team,[...(teamGroups.get(r.team)||[]),r]));let right='<div class="mini-row mini-head"><span>Equipo</span><span>Usuario</span><span>Total</span><span>Cerrados</span><span>% cerrado</span></div>';[...teamGroups].sort((a,b)=>metric(b[1]).total-metric(a[1]).total).forEach(([team,rs])=>{const tm=metric(rs);right+=`<div class="mini-row team-summary"><span>${esc(team)}</span><span>Equipo</span><b>${tm.total}</b><b class="closed">${tm.closed}</b><b class="rate">${pct(tm.rate)}</b></div>`;const pgs=new Map();rs.forEach(r=>pgs.set(r.assignee,[...(pgs.get(r.assignee)||[]),r]));[...pgs].sort((a,b)=>metric(b[1]).total-metric(a[1]).total).forEach(([user,urs])=>{const um=metric(urs);right+=`<div class="mini-row"><span>${esc(team)}</span><span title="${esc(user)}">${esc(user)}</span><b>${um.total}</b><b class="closed">${um.closed}</b><b class="rate">${pct(um.rate)}</b></div>`})});$('people').innerHTML=right;syncPerformancePanels();
-const statuses=[...new Set(data.map(r=>r.status))].sort(),assignees=[...new Set(data.map(r=>r.assignee))].sort((a,b)=>a.localeCompare(b,'es'));state.detailStatus=select('detailStatus',statuses,state.detailStatus);state.detailAssignee=select('detailAssignee',assignees,state.detailAssignee);const detailFiltered=data.filter(r=>(state.detailStatus==='Todos'||r.status===state.detailStatus)&&(state.detailAssignee==='Todos'||r.assignee===state.detailAssignee)),details=detailFiltered.slice(0,100);$('details').innerHTML=details.map(r=>`<tr data-issue="${esc(r.id)}" class="${state.selectedIssue===r.id?'selected':''}"><td>${esc(r.id||'—')}</td><td>${esc(r.project)}</td><td class="title" title="${esc(r.title)}">${esc(r.title||'Sin título')}</td><td><span class="pill ${esc(r.status.toLowerCase().replace(/\s+/g,'-'))}">${esc(r.status)}</span></td><td>${esc(r.discipline)}</td><td>${esc(r.team)}</td><td>${esc(r.assignee)}</td><td>${r.createdOn?new Date(r.createdOn).toLocaleDateString('es-MX'):'—'}</td></tr>`).join('');$('details').querySelectorAll('[data-issue]').forEach(tr=>tr.onclick=()=>{state.selectedIssue=state.selectedIssue===tr.dataset.issue?null:tr.dataset.issue;renderDescription(rows.find(r=>r.id===state.selectedIssue));$('details').querySelectorAll('tr').forEach(x=>x.classList.toggle('selected',x.dataset.issue===state.selectedIssue))});renderDescription(rows.find(r=>r.id===state.selectedIssue));$('detailNote').textContent=`Mostrando ${details.length} de ${number(detailFiltered.length)} registros que cumplen los filtros de detalle (${number(data.length)} en la vista actual). Selecciona un issue para ver su descripción.`;const t=trendRows();drawChart($('history'),t,false);drawChart($('rate'),t,true)}
-$('monthFilter').onchange=e=>{state.month=e.target.value;state.selectedIssue=null;render()};$('memberFilter').onchange=e=>{state.member=e.target.value;state.selectedIssue=null;render()};$('detailStatus').onchange=e=>{state.detailStatus=e.target.value;state.selectedIssue=null;render()};$('detailAssignee').onchange=e=>{state.detailAssignee=e.target.value;state.selectedIssue=null;render()};$('reset').onclick=()=>{state={project:'Todos',month:'Todos',type:'Todos',team:'Todos',discipline:'Todos',member:'Todos',detailStatus:'Todos',detailAssignee:'Todos',selectedIssue:null};render()};window.onresize=()=>{const t=trendRows();drawChart($('history'),t,false);drawChart($('rate'),t,true);syncPerformancePanels()};$('updated').textContent=`Datos: ${snapshot.generatedAt?new Date(snapshot.generatedAt).toLocaleString('es-MX'):'—'} · ${number(snapshot.rowCount||rows.length)} registros`;render();
+function drawChart(canvas,points,rateOnly=false){const rect=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1,w=Math.max(300,rect.width),h=Math.max(175,rect.height);canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext('2d');c.scale(dpr,dpr);c.clearRect(0,0,w,h);const pad={l:46,r:20,t:28,b:36},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;const F='-apple-system,"Segoe UI",sans-serif';c.font=`10px ${F}`;c.lineCap='round';c.lineJoin='round';if(!points.length){c.fillStyle='#86868b';c.fillText('Sin datos',pad.l,pad.t+20);return}const max=rateOnly?1:Math.max(1,...points.map(p=>Math.max(p.total,p.closed)));for(let i=0;i<=3;i++){const yy=pad.t+ph*i/3;c.strokeStyle='rgba(120,120,128,.16)';c.lineWidth=1;c.beginPath();c.moveTo(pad.l,yy);c.lineTo(w-pad.r,yy);c.stroke();const v=max*(1-i/3);c.fillStyle='#86868b';c.font=`10px ${F}`;c.fillText(rateOnly?pct(v):number(Math.round(v)),5,yy+3)}const x=i=>pad.l+(points.length===1?pw/2:pw*i/(points.length-1)),y=v=>pad.t+ph*(1-v/max);const series=rateOnly?[['rate','#007aff']]:[['total','#007aff'],['closed','#1aa6a6']];series.forEach(([field,col])=>{const g=c.createLinearGradient(0,pad.t,0,h-pad.b);g.addColorStop(0,col+'33');g.addColorStop(1,col+'00');c.fillStyle=g;c.beginPath();points.forEach((p,i)=>{const xx=x(i),yy=y(p[field]);i?c.lineTo(xx,yy):c.moveTo(xx,yy)});c.lineTo(x(points.length-1),h-pad.b);c.lineTo(x(0),h-pad.b);c.closePath();c.fill();c.strokeStyle=col;c.lineWidth=2.5;c.beginPath();points.forEach((p,i)=>{const xx=x(i),yy=y(p[field]);i?c.lineTo(xx,yy):c.moveTo(xx,yy)});c.stroke();points.forEach((p,i)=>{const xx=x(i),yy=y(p[field]);c.fillStyle='#fff';c.strokeStyle=col;c.lineWidth=2;c.beginPath();c.arc(xx,yy,3.8,0,Math.PI*2);c.fill();c.stroke();c.fillStyle=col;c.font=`bold 10px ${F}`;const label=rateOnly?pct(p.rate):number(p[field]);const tw=c.measureText(label).width;let lx=xx-tw/2,ly=yy-10;if(!rateOnly&&field==='closed'){ly=yy+15;if(ly>h-pad.b-2)ly=yy-10;if(p.closed===p.total){lx=xx+7;ly=yy+15;if(ly>h-pad.b-2)ly=yy-10}}if(!rateOnly&&field==='total'&&p.closed===p.total){lx=xx-tw-7;ly=yy-10}c.fillText(label,Math.max(2,Math.min(w-tw-2,lx)),Math.max(10,Math.min(h-pad.b+14,ly)));c.font=`10px ${F}`})});c.fillStyle='#86868b';c.font=`10px ${F}`;points.forEach((p,i)=>{if(points.length<=10||i%Math.ceil(points.length/8)===0||i===points.length-1)c.fillText(p.label,x(i)-12,h-8)})}
+function renderDescription(r){const box=$('issueDescription');if(!r){box.classList.remove('visible');return}$('descriptionTitle').textContent=`${r.id||'Issue'} · ${r.title||'Sin título'}`;$('descriptionMeta').textContent=`${r.project} · ${r.team} · ${r.assignee} · ${r.status}`;$('descriptionText').textContent=r.description||'Este issue no tiene descripción registrada.';box.classList.add('visible')}
+function activos(){const L=[['project','Proyecto'],['month','Mes'],['type','Tipo'],['team','Equipo'],['discipline','Disciplina'],['member','Integrante']];$('activeFilters').innerHTML=L.filter(([k])=>state[k]!=='Todos').map(([k,l])=>`<span class="af">${l}: ${esc(k==='month'?monthName(state[k]):state[k])}<button type="button" data-k="${k}" aria-label="Quitar">×</button></span>`).join('');$('activeFilters').querySelectorAll('button').forEach(b=>b.onclick=()=>{state[b.dataset.k]='Todos';if(['project','type','discipline'].includes(b.dataset.k)){state.team='Todos';state.member='Todos'}if(b.dataset.k==='team')state.member='Todos';state.selectedIssue=null;render()})}
+function render(){
+chips('projectButtons',projects,state.project,v=>{state.project=v;state.team='Todos';state.discipline='Todos';state.member='Todos';state.selectedIssue=null;render()});
+chips('typeButtons',types,state.type,v=>{state.type=v;state.team='Todos';state.discipline='Todos';state.member='Todos';state.selectedIssue=null;render()});
+state.month=select('monthFilter',monthKeys,state.month,monthName);
+const availableDs=availableDisciplines();if(state.discipline!=='Todos'&&!availableDs.includes(state.discipline))state.discipline='Todos';chips('disciplineButtons',availableDs,state.discipline,v=>{state.discipline=v;state.team='Todos';state.member='Todos';state.selectedIssue=null;render()});
+const teams=availableTeams();if(state.team!=='Todos'&&!teams.includes(state.team))state.team='Todos';chips('teamButtons',teams,state.team,v=>{state.team=v;state.member='Todos';state.selectedIssue=null;render()});
+state.member=select('memberFilter',availableMembers(),state.member);activos();renderRoster();
+const data=filtered(),m=metric(data),n=nivel(m.rate);
+$('ring').style.setProperty('--score',Math.round(m.rate*100));$('ring').className='score-ring score-'+(n==='pass'?'green':n==='warn'?'orange':'red');$('ringNum').textContent=pct(m.rate);$('ringCap').innerHTML=`${number(m.closed)} de ${number(m.total)} issues<br>están cerrados.`;
+$('mTotal').textContent=number(m.total);$('mOpen').textContent=number(m.open);$('mClosed').textContent=number(m.closed);$('mProj').textContent=`${new Set(data.map(r=>r.project)).size} · ${new Set(data.map(r=>r.assignee)).size}`;$('viewCount').textContent=`${number(m.total)} issues en la vista`;
+document.querySelectorAll('[data-kicker]').forEach(k=>k.textContent=`${state.project==='Todos'?'Portafolio':state.project} · Área de revisión`);
+$('cntDisc').textContent=`${disciplines.length} ${disciplines.length===1?'check':'checks'}`;
+$('disciplines').innerHTML=disciplines.map(d=>{const dm=metric(data.filter(r=>r.discipline===d)),dn=dm.total?nivel(dm.rate):'pass';return card({nivel:dn,pill:dm.total?LBL[dn]:'Sin issues',count:`${dm.total} total`,title:esc(d),summary:`<span class="pick-hint">${state.discipline===d?'Filtrando esta disciplina · clic para quitar':'Clic para filtrar'}</span>`,body:`<div class="disc-body"><div class="mini-ring" style="--p:${Math.round(dm.rate*100)};--c:${COL[dn]}"><b>${pct(dm.rate)}</b></div><div class="disc-stats"><span>Total</span><span>Abiertos</span><span>Cerrados</span><b>${dm.total}</b><b>${dm.open}</b><b>${dm.closed}</b></div></div>`,attrs:`data-disc="${esc(d)}" data-search="${esc(d.toLowerCase())}"`,cls:'selectable'+(state.discipline===d?' selected':'')})}).join('');
+$('disciplines').querySelectorAll('[data-disc] .card-top').forEach(b=>b.onclick=()=>{const d=b.parentElement.dataset.disc;state.discipline=state.discipline===d?'Todos':d;state.team='Todos';state.member='Todos';state.selectedIssue=null;render()});
+const ranking=projects.map(p=>({label:p,...metric(rows.filter(r=>r.project===p&&(state.month==='Todos'||key(r.createdOn)===state.month)&&(state.type==='Todos'||r.type===state.type)&&(state.discipline==='Todos'||r.discipline===state.discipline)&&(state.team==='Todos'||r.team===state.team)&&(state.member==='Todos'||r.assignee===state.member)))})).filter(x=>x.total).sort((a,b)=>b.rate-a.rate||b.closed-a.closed).slice(0,5);
+$('ranking').innerHTML=ranking.map((x,i)=>`<div class="rank"><span class="rank-no">${i+1}</span><div><div class="rank-label"><strong>${esc(x.label)}<small>${x.closed}/${x.total}</small></strong><span>${pct(x.rate)}</span></div><div class="bar"><i style="width:${x.rate*100}%"></i></div></div></div>`).join('')||'<div class="empty-mini">Sin datos</div>';
+const rk=$('rankingCard');rk.className='check-card has-table '+(ranking.length?nivel(ranking[0].rate):'info');
+const teamGroups=new Map();data.forEach(r=>teamGroups.set(r.team,[...(teamGroups.get(r.team)||[]),r]));let right='';let nUsers=0;[...teamGroups].sort((a,b)=>metric(b[1]).total-metric(a[1]).total).forEach(([team,rs])=>{const tm=metric(rs);right+=`<tr class="team-row"><td>${esc(team)}</td><td>Equipo</td><td class="num">${tm.total}</td><td class="num ok">${tm.closed}</td><td class="num rate">${pct(tm.rate)}</td></tr>`;const pgs=new Map();rs.forEach(r=>pgs.set(r.assignee,[...(pgs.get(r.assignee)||[]),r]));[...pgs].sort((a,b)=>metric(b[1]).total-metric(a[1]).total).forEach(([user,urs])=>{nUsers++;const um=metric(urs);right+=`<tr><td>${esc(team)}</td><td>${esc(user)}</td><td class="num">${um.total}</td><td class="num ok">${um.closed}</td><td class="num rate">${pct(um.rate)}</td></tr>`})});$('people').innerHTML=right||'<tr><td colspan="5" class="empty-mini">Sin datos</td></tr>';$('peopleCount').textContent=`${teamGroups.size} equipos · ${nUsers} usuarios`;$('peopleCard').className='check-card has-table '+(m.total?n:'info');
+const statuses=[...new Set(data.map(r=>r.status))].sort(),assignees=[...new Set(data.map(r=>r.assignee))].sort((a,b)=>a.localeCompare(b,'es'));state.detailStatus=select('detailStatus',statuses,state.detailStatus);state.detailAssignee=select('detailAssignee',assignees,state.detailAssignee);
+const q=busca.toLowerCase(),detailFiltered=data.filter(r=>(state.detailStatus==='Todos'||r.status===state.detailStatus)&&(state.detailAssignee==='Todos'||r.assignee===state.detailAssignee)&&(!q||[r.id,r.title,r.description,r.assignee,r.project,r.team,r.type].join(' ').toLowerCase().includes(q))),details=detailFiltered.slice(0,100);
+$('details').innerHTML=details.map(r=>`<tr data-issue="${esc(r.id)}" class="${state.selectedIssue===r.id?'selected':''}"><td>${esc(r.id||'—')}</td><td>${esc(r.project)}</td><td class="wrap">${esc(r.title||'Sin título')}</td><td><span class="st ${esc(r.status.toLowerCase().replace(/\s+/g,'-'))}">${esc(r.status)}</span></td><td>${esc(r.type)}</td><td>${esc(r.discipline)}</td><td>${esc(r.team)}</td><td>${esc(r.assignee)}</td><td>${r.createdOn?new Date(r.createdOn).toLocaleDateString('es-MX'):'—'}</td></tr>`).join('')||'<tr><td colspan="9" class="empty-mini">Sin issues con estos filtros</td></tr>';
+$('details').querySelectorAll('[data-issue]').forEach(tr=>tr.onclick=()=>{state.selectedIssue=state.selectedIssue===tr.dataset.issue?null:tr.dataset.issue;renderDescription(rows.find(r=>r.id===state.selectedIssue));$('details').querySelectorAll('tr').forEach(x=>x.classList.toggle('selected',x.dataset.issue===state.selectedIssue))});
+renderDescription(rows.find(r=>r.id===state.selectedIssue));
+$('detailCount').textContent=`${number(detailFiltered.length)} resultados`;$('cntDetalle').textContent=`${number(detailFiltered.length)} issues`;
+$('detailNote').textContent=`Mostrando ${details.length} de ${number(detailFiltered.length)} registros que cumplen los filtros de detalle (${number(data.length)} en la vista actual). Selecciona un issue para ver su descripción.`;
+const t=trendRows();drawChart($('history'),t,false);drawChart($('rate'),t,true);aplicarSalud();revelar()}
+function aplicarSalud(){const q=busca.toLowerCase();let vis=0;document.querySelectorAll('#rosterList .check-card, #disciplines .check-card').forEach(c=>{const okS=salud==='ALL'||c.dataset.status===salud,okQ=!q||(c.dataset.search||'').includes(q);c.classList.toggle('is-hidden',!(okS&&okQ));if(okS&&okQ)vis++});}
+$('monthFilter').onchange=e=>{state.month=e.target.value;state.selectedIssue=null;render()};$('memberFilter').onchange=e=>{state.member=e.target.value;state.selectedIssue=null;render()};$('detailStatus').onchange=e=>{state.detailStatus=e.target.value;state.selectedIssue=null;render()};$('detailAssignee').onchange=e=>{state.detailAssignee=e.target.value;state.selectedIssue=null;render()};
+$('reset').onclick=()=>{state={...INI};busca='';$('search').value='';$('clear-search').classList.remove('visible');salud='ALL';document.querySelectorAll('.segment').forEach(s=>s.classList.toggle('active',s.dataset.filter==='ALL'));render()};
+document.querySelectorAll('.segment').forEach(s=>s.onclick=()=>{salud=s.dataset.filter;document.querySelectorAll('.segment').forEach(x=>x.classList.toggle('active',x===s));aplicarSalud()});
+$('search').oninput=e=>{busca=e.target.value.trim();$('clear-search').classList.toggle('visible',!!busca);render()};$('clear-search').onclick=()=>{$('search').value='';busca='';$('clear-search').classList.remove('visible');render()};
+let abierto=false;$('toggle-details').onclick=()=>{abierto=!abierto;document.querySelectorAll('details').forEach(d=>d.open=abierto);$('toggle-details').querySelector('span').textContent=abierto?'Contraer':'Expandir'};
+$('print-report').onclick=()=>{document.querySelectorAll('details').forEach(d=>d.open=true);window.print()};
+window.onresize=()=>{const t=trendRows();drawChart($('history'),t,false);drawChart($('rate'),t,true)};
+const fecha=snapshot.generatedAt?new Date(snapshot.generatedAt).toLocaleString('es-MX'):'—';
+$('srcLine').textContent=`VENTAS GCP · ${snapshot.source||'APS (ACC Issues)'} · Snapshot VENTAS_ISSUES`;$('updated').textContent=`Datos: ${fecha} · ${number(snapshot.rowCount||rows.length)} registros`;$('footNote').textContent=`Generado automáticamente desde ACC Issues · ${fecha}`;
+// aparicion suave (igual que AUDITORIA) y dock que sigue la seccion visible
+const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.06}):null;
+function revelar(){document.querySelectorAll('.reveal:not(.visible)').forEach(el=>io?io.observe(el):el.classList.add('visible'))}
+const items=[...document.querySelectorAll('.dock-item')];function dock(){let act=items[0];items.forEach(a=>{const el=$(a.dataset.target);if(el&&el.getBoundingClientRect().top<200)act=a});items.forEach(a=>a.classList.toggle('active',a===act))}window.addEventListener('scroll',dock,{passive:true});
+render();
 })();
 </script>
-</body></html>
+</body>
+</html>

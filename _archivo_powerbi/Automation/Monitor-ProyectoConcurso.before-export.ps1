@@ -4,12 +4,11 @@ $AutomationRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepositoryRoot = Split-Path -Parent $AutomationRoot
 $UpdaterPath = Join-Path $AutomationRoot "Update-ProyectoConcurso.ps1"
 $FileUpdaterPath = Join-Path $AutomationRoot "Update-DimArchivoLocal.ps1"
-$ExporterPath = Join-Path $AutomationRoot "Export-VENTAS_ISSUES.ps1"
 $FileStatePath = Join-Path $AutomationRoot "filemap-state.json"
 $StatePath = Join-Path $AutomationRoot "state.json"
 $SignalPath = Join-Path $AutomationRoot "folder-change.signal"
 $PidPath = Join-Path $AutomationRoot "monitor.pid"
-$LogPath = Join-Path $AutomationRoot "proyecto-concurso.log"
+$LogPath = Join-Path $AutomationRoot "automation.log"
 $ProjectFilesRoot = "C:\Users\Usuario\DC\ACCDocs\GCPEASA\VENTAS GCP\Project Files"
 $PbipPath = Join-Path $RepositoryRoot "ISSUES_VENTAS.pbip"
 $Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
@@ -66,14 +65,6 @@ function Invoke-Updater {
     if ($folderExit -eq 10 -or $fileExit -eq 10) { return 10 }
     if ($folderExit -ne 0 -or $fileExit -ne 0) { return 1 }
     return 0
-}
-
-function Invoke-Exporter {
-    if (-not (Test-Path -LiteralPath $ExporterPath)) { return }
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ExporterPath -Silent
-    if ($LASTEXITCODE -ne 0) {
-        Write-MonitorLog "Exportador VENTAS_ISSUES devolvio codigo $LASTEXITCODE."
-    }
 }
 
 function Get-DirectorySignature {
@@ -133,7 +124,6 @@ try {
     $nextHourlyCheck = (Get-Date).AddHours(1)
     $directorySignature = Get-DirectorySignature
     $nextDirectoryScan = (Get-Date).AddSeconds(10)
-    $nextExportCheck = (Get-Date).AddSeconds(20)
 
     while ($true) {
         $isOpen = Test-TargetOpen
@@ -156,13 +146,6 @@ try {
             }
         }
         $wasOpen = $isOpen
-
-        # El exportador solo puede consultar VENTAS_ISSUES mientras Power BI Desktop esta abierto.
-        # No ejecuta Refresh; exporta el estado actualmente cargado en el modelo.
-        if ($isOpen -and (Get-Date) -ge $nextExportCheck) {
-            Invoke-Exporter
-            $nextExportCheck = (Get-Date).AddMinutes(1)
-        }
 
         if (Test-Path -LiteralPath $SignalPath) {
             $signalAge = (Get-Date) - (Get-Item -LiteralPath $SignalPath).LastWriteTime
@@ -187,7 +170,6 @@ try {
             }
             if ($currentDirectorySignature) { $directorySignature = $currentDirectorySignature }
             $nextDirectoryScan = (Get-Date).AddSeconds(10)
-    $nextExportCheck = (Get-Date).AddSeconds(20)
         }
 
         $state = Read-State

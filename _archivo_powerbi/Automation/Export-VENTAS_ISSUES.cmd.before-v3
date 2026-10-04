@@ -1,0 +1,19 @@
+@echo off
+setlocal
+cd /d "%~dp0"
+echo ==============================================
+echo   EXPORTADOR VENTAS_ISSUES - Power BI Desktop
+echo ==============================================
+echo.
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Export-VENTAS_ISSUES.ps1" -Diagnostic
+set RC=%ERRORLEVEL%
+echo.
+if not "%RC%"=="0" (
+  echo La exportacion termino con error %RC%.
+  echo Copia el texto mostrado arriba y envialo para diagnostico.
+) else (
+  echo Exportacion terminada correctamente.
+)
+echo.
+pause
+exit /b %RC%

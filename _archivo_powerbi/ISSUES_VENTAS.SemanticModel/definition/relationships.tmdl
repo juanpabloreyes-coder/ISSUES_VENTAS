@@ -8,8 +8,6 @@ relationship AutoDetected_2750b37d-290d-4a77-a4d8-7ead8bfc1621
 	toColumn: activities_issues_activities.activity_id
 
 relationship AutoDetected_90f862a4-f2bc-46fc-bc41-7d39a9e9e76c
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
 	fromColumn: issues_comments.issue_id
 	toColumn: issues_issues.issue_id
 

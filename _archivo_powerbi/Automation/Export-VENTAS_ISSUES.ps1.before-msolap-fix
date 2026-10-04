@@ -1,0 +1,253 @@
+param(
+    [string]$OutputPath,
+    [string]$TemplatePath,
+    [string]$ReportPath,
+    [switch]$Silent
+)
+
+$ErrorActionPreference = "Stop"
+$AutomationRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RepositoryRoot = Split-Path -Parent $AutomationRoot
+if ([string]::IsNullOrWhiteSpace($OutputPath)) { $OutputPath = Join-Path $RepositoryRoot "Data\VENTAS_ISSUES.json" }
+if ([string]::IsNullOrWhiteSpace($TemplatePath)) { $TemplatePath = Join-Path $RepositoryRoot "Dashboard\Issues-Ventas-Report.template.html" }
+if ([string]::IsNullOrWhiteSpace($ReportPath)) { $ReportPath = Join-Path $RepositoryRoot "Dashboard\Issues-Ventas-Report.html" }
+$StatePath = Join-Path $AutomationRoot "export-state.json"
+$LogPath = Join-Path $AutomationRoot "automation.log"
+$Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+
+function Write-ExportLog {
+    param([string]$Message)
+    $line = "{0}  EXPORT   {1}" -f (Get-Date).ToString("yyyy-MM-dd HH:mm:ss"), $Message
+    [System.IO.File]::AppendAllText($LogPath, $line + [Environment]::NewLine, $Utf8NoBom)
+}
+
+function Show-ExportNotification {
+    param([string]$Title, [string]$Message, [ValidateSet("Info","Warning","Error")][string]$Level = "Info")
+    if ($Silent) { return }
+    try {
+        Add-Type -AssemblyName System.Windows.Forms
+        Add-Type -AssemblyName System.Drawing
+        $icon = [System.Windows.Forms.NotifyIcon]::new()
+        $icon.Icon = switch ($Level) {
+            "Warning" { [System.Drawing.SystemIcons]::Warning }
+            "Error" { [System.Drawing.SystemIcons]::Error }
+            default { [System.Drawing.SystemIcons]::Information }
+        }
+        $icon.Visible = $true
+        $icon.BalloonTipTitle = $Title
+        $icon.BalloonTipText = $Message
+        $icon.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::$Level
+        $icon.ShowBalloonTip(7000)
+        Start-Sleep -Milliseconds 900
+        $icon.Dispose()
+    } catch {
+        Write-ExportLog "No se pudo mostrar notificacion: $($_.Exception.Message)"
+    }
+}
+
+function Save-State {
+    param([hashtable]$State)
+    [System.IO.File]::WriteAllText($StatePath, ($State | ConvertTo-Json -Depth 5), $Utf8NoBom)
+}
+
+function Get-AdomdAssemblyPath {
+    $candidates = @(
+        "C:\Program Files\Microsoft Power BI Desktop\bin\Microsoft.AnalysisServices.AdomdClient.dll",
+        "C:\Program Files (x86)\Microsoft Power BI Desktop\bin\Microsoft.AnalysisServices.AdomdClient.dll"
+    )
+    foreach ($path in $candidates) { if (Test-Path -LiteralPath $path) { return $path } }
+    throw "No se encontro Microsoft.AnalysisServices.AdomdClient.dll. Verifica la instalacion de Power BI Desktop."
+}
+
+function Get-PowerBiPorts {
+    $ports = New-Object System.Collections.Generic.List[int]
+    $roots = @()
+    if ($env:LOCALAPPDATA) {
+        $roots += Join-Path $env:LOCALAPPDATA "Microsoft\Power BI Desktop\AnalysisServicesWorkspaces"
+    }
+    foreach ($root in $roots) {
+        if (-not (Test-Path -LiteralPath $root)) { continue }
+        foreach ($file in @(Get-ChildItem -LiteralPath $root -Filter "msmdsrv.port.txt" -Recurse -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending)) {
+            try {
+                $p = [int](([System.IO.File]::ReadAllText($file.FullName)).Trim())
+                if ($p -gt 0 -and -not $ports.Contains($p)) { $ports.Add($p) }
+            } catch { }
+        }
+    }
+
+    try {
+        foreach ($proc in @(Get-CimInstance Win32_Process -Filter "Name='msmdsrv.exe'" -ErrorAction Stop)) {
+            if (-not $proc.CommandLine) { continue }
+            $m = [regex]::Match($proc.CommandLine, '-s\s+"(?<path>[^"]+)"')
+            if (-not $m.Success) { continue }
+            $workspace = $m.Groups['path'].Value
+            foreach ($candidate in @((Join-Path $workspace "msmdsrv.port.txt"),(Join-Path $workspace "Data\msmdsrv.port.txt"))) {
+                if (-not (Test-Path -LiteralPath $candidate)) { continue }
+                try {
+                    $p = [int](([System.IO.File]::ReadAllText($candidate)).Trim())
+                    if ($p -gt 0 -and -not $ports.Contains($p)) { $ports.Add($p) }
+                } catch { }
+            }
+        }
+    } catch { }
+    return @($ports)
+}
+
+function Get-Catalogs {
+    param([int]$Port)
+    $conn = [Microsoft.AnalysisServices.AdomdClient.AdomdConnection]::new("Data Source=localhost:$Port;Timeout=8;")
+    try {
+        $conn.Open()
+        $cmd = $conn.CreateCommand()
+        $cmd.CommandText = 'SELECT [CATALOG_NAME] FROM $SYSTEM.DBSCHEMA_CATALOGS'
+        $reader = $cmd.ExecuteReader()
+        $result = @()
+        while ($reader.Read()) { if (-not $reader.IsDBNull(0)) { $result += [string]$reader.GetValue(0) } }
+        $reader.Close()
+        return $result
+    } finally {
+        if ($conn.State -ne [System.Data.ConnectionState]::Closed) { $conn.Close() }
+        $conn.Dispose()
+    }
+}
+
+function Test-VentasTable {
+    param([int]$Port,[string]$Catalog)
+    $conn = [Microsoft.AnalysisServices.AdomdClient.AdomdConnection]::new("Data Source=localhost:$Port;Initial Catalog=$Catalog;Timeout=8;")
+    try {
+        $conn.Open()
+        $cmd = $conn.CreateCommand()
+        $cmd.CommandText = 'EVALUATE ROW("Rows", COUNTROWS(''VENTAS_ISSUES''))'
+        [void]$cmd.ExecuteScalar()
+        return $true
+    } catch { return $false }
+    finally {
+        if ($conn.State -ne [System.Data.ConnectionState]::Closed) { $conn.Close() }
+        $conn.Dispose()
+    }
+}
+
+function Find-VentasModel {
+    $ports = @(Get-PowerBiPorts)
+    if ($ports.Count -eq 0) { throw "No se encontro una instancia local de Power BI Desktop. Abre ISSUES_VENTAS.pbip antes de exportar." }
+    foreach ($port in $ports) {
+        foreach ($catalog in @(Get-Catalogs -Port $port)) {
+            if (Test-VentasTable -Port $port -Catalog $catalog) { return @{ Port=$port; Catalog=$catalog } }
+        }
+    }
+    throw "Se encontraron instancias de Power BI, pero ninguna contiene la tabla VENTAS_ISSUES. Abre ISSUES_VENTAS.pbip."
+}
+
+function Convert-DbValue {
+    param($Value)
+    if ($null -eq $Value -or $Value -is [System.DBNull]) { return $null }
+    if ($Value -is [datetime]) { return $Value.ToString("yyyy-MM-ddTHH:mm:ss.fffK") }
+    return $Value
+}
+
+function Read-VentasIssues {
+    param([int]$Port,[string]$Catalog)
+    $dax = @'
+EVALUATE
+SELECTCOLUMNS(
+    'VENTAS_ISSUES',
+    "ID", 'VENTAS_ISSUES'[ID],
+    "Title", 'VENTAS_ISSUES'[Title],
+    "Status", 'VENTAS_ISSUES'[Status],
+    "Category", 'VENTAS_ISSUES'[Category],
+    "Type", 'VENTAS_ISSUES'[Type],
+    "Assigned to", 'VENTAS_ISSUES'[Assigned to],
+    "Created on", 'VENTAS_ISSUES'[Created on],
+    "Due date", 'VENTAS_ISSUES'[Due date],
+    "Updated on", 'VENTAS_ISSUES'[Updated on],
+    "Closed at", 'VENTAS_ISSUES'[Closed at],
+    "Disciplina", 'VENTAS_ISSUES'[Disciplina],
+    "Equipo", 'VENTAS_ISSUES'[Equipo],
+    "ProyectoConcurso", 'VENTAS_ISSUES'[ProyectoConcurso]
+)
+'@
+    $conn = [Microsoft.AnalysisServices.AdomdClient.AdomdConnection]::new("Data Source=localhost:$Port;Initial Catalog=$Catalog;Timeout=60;")
+    try {
+        $conn.Open()
+        $cmd = $conn.CreateCommand()
+        $cmd.CommandTimeout = 60
+        $cmd.CommandText = $dax
+        $reader = $cmd.ExecuteReader()
+        $list = New-Object System.Collections.Generic.List[object]
+        while ($reader.Read()) {
+            $row = [ordered]@{}
+            for ($i=0; $i -lt $reader.FieldCount; $i++) {
+                $name = [string]$reader.GetName($i)
+                if ($name -match '^.*\[(?<n>[^\]]+)\]$') { $name = $Matches['n'] }
+                $row[$name] = Convert-DbValue $reader.GetValue($i)
+            }
+            $list.Add([pscustomobject]$row)
+        }
+        $reader.Close()
+        return @($list)
+    } finally {
+        if ($conn.State -ne [System.Data.ConnectionState]::Closed) { $conn.Close() }
+        $conn.Dispose()
+    }
+}
+
+function Get-Hash {
+    param([string]$Text)
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try { return ([BitConverter]::ToString($sha.ComputeHash($Utf8NoBom.GetBytes($Text)))).Replace('-','').ToLowerInvariant() }
+    finally { $sha.Dispose() }
+}
+
+function Write-AtomicText {
+    param([string]$Path,[string]$Text)
+    $dir = Split-Path -Parent $Path
+    if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
+    $tmp = "$Path.tmp"
+    [System.IO.File]::WriteAllText($tmp,$Text,$Utf8NoBom)
+    Move-Item -LiteralPath $tmp -Destination $Path -Force
+}
+
+try {
+    [void][System.Reflection.Assembly]::LoadFrom((Get-AdomdAssemblyPath))
+    $model = Find-VentasModel
+    $rows = @(Read-VentasIssues -Port $model.Port -Catalog $model.Catalog)
+    $generatedAt = (Get-Date).ToString("o")
+    $snapshot = [ordered]@{
+        generatedAt = $generatedAt
+        source = "Power BI Desktop - VENTAS_ISSUES"
+        rowCount = $rows.Count
+        rows = $rows
+    }
+    $jsonPretty = $snapshot | ConvertTo-Json -Depth 7
+    $jsonCompact = $snapshot | ConvertTo-Json -Depth 7 -Compress
+    $dataHash = Get-Hash -Text $jsonCompact
+
+    $previousHash = $null
+    if (Test-Path -LiteralPath $StatePath) {
+        try { $previousHash = [string](([System.IO.File]::ReadAllText($StatePath) | ConvertFrom-Json).DataHash) } catch { }
+    }
+
+    if ($dataHash -ne $previousHash -or -not (Test-Path -LiteralPath $OutputPath)) {
+        Write-AtomicText -Path $OutputPath -Text $jsonPretty
+        if (Test-Path -LiteralPath $TemplatePath) {
+            $template = [System.IO.File]::ReadAllText($TemplatePath)
+            if (-not $template.Contains('__ISSUES_DATA_JSON__')) { throw "La plantilla no contiene __ISSUES_DATA_JSON__." }
+            $safeJson = $jsonCompact.Replace('</','<\/').Replace([char]0x2028,'\u2028').Replace([char]0x2029,'\u2029')
+            $report = $template.Replace('__ISSUES_DATA_JSON__',$safeJson)
+            Write-AtomicText -Path $ReportPath -Text $report
+        }
+        Save-State @{ LastChecked=$generatedAt; LastUpdated=$generatedAt; RowCount=$rows.Count; DataHash=$dataHash; Port=$model.Port; Catalog=$model.Catalog; Status="Actualizado"; LastError=$null }
+        Write-ExportLog "Snapshot actualizado: $($rows.Count) issues."
+        Show-ExportNotification -Title "Issues Ventas actualizado" -Message "$($rows.Count) issues exportados al dashboard."
+    } else {
+        Save-State @{ LastChecked=$generatedAt; LastUpdated=$generatedAt; RowCount=$rows.Count; DataHash=$dataHash; Port=$model.Port; Catalog=$model.Catalog; Status="Sin cambios"; LastError=$null }
+        Write-ExportLog "Sin cambios en VENTAS_ISSUES: $($rows.Count) issues."
+    }
+    exit 0
+} catch {
+    $message = $_.Exception.Message
+    Save-State @{ LastChecked=(Get-Date).ToString("o"); Status="Error"; LastError=$message }
+    Write-ExportLog "ERROR: $message"
+    Show-ExportNotification -Title "Error exportando Issues Ventas" -Message $message -Level Error
+    exit 2
+}

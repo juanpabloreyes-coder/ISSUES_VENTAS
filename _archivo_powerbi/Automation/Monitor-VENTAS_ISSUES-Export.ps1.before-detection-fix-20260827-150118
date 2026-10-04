@@ -1,0 +1,136 @@
+param(
+    [int]$IntervalSeconds = 60
+)
+
+$ErrorActionPreference = "Continue"
+
+$AutomationRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RepositoryRoot = Split-Path -Parent $AutomationRoot
+$PbipPath = Join-Path $RepositoryRoot "ISSUES_VENTAS.pbip"
+$ExportPath = Join-Path $AutomationRoot "Export-VENTAS_ISSUES.ps1"
+$JsonPath = Join-Path $RepositoryRoot "Data\VENTAS_ISSUES.json"
+$PidPath = Join-Path $AutomationRoot "export-monitor.pid"
+$LogPath = Join-Path $AutomationRoot "automation.log"
+$Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+
+function Write-ExportMonitorLog {
+    param([string]$Message)
+    $line = "{0}  EXPORT_MONITOR  {1}" -f (Get-Date).ToString("yyyy-MM-dd HH:mm:ss"), $Message
+    try {
+        [System.IO.File]::AppendAllText($LogPath, $line + [Environment]::NewLine, $Utf8NoBom)
+    } catch {}
+}
+
+function Test-TargetOpen {
+    $escapedPbip = [regex]::Escape($PbipPath)
+
+    try {
+        foreach ($process in @(Get-CimInstance Win32_Process -Filter "Name='PBIDesktop.exe'" -ErrorAction Stop)) {
+            if ($process.CommandLine -and $process.CommandLine -match $escapedPbip) {
+                return $true
+            }
+        }
+    } catch {}
+
+    foreach ($window in @(Get-Process PBIDesktop -ErrorAction SilentlyContinue)) {
+        if ($window.MainWindowTitle -match "(^|\s)ISSUES_VENTAS(\s|-|$)") {
+            return $true
+        }
+    }
+
+    return $false
+}
+
+function Get-ContentHash {
+    param([string]$Path)
+    if (-not (Test-Path -LiteralPath $Path)) { return $null }
+    try {
+        return (Get-FileHash -LiteralPath $Path -Algorithm SHA256 -ErrorAction Stop).Hash
+    } catch {
+        return $null
+    }
+}
+
+$createdNew = $false
+$mutex = [System.Threading.Mutex]::new(
+    $true,
+    "Local\VENTAS_ISSUES_Dashboard_Export_Monitor",
+    [ref]$createdNew
+)
+
+if (-not $createdNew) {
+    exit 0
+}
+
+try {
+    [System.IO.File]::WriteAllText($PidPath, [string]$PID, $Utf8NoBom)
+
+    if ($IntervalSeconds -lt 30) {
+        $IntervalSeconds = 30
+    }
+
+    Write-ExportMonitorLog "Monitor iniciado. Intervalo: $IntervalSeconds segundos."
+
+    $lastOpen = $false
+    $lastFailure = $null
+
+    while ($true) {
+        $isOpen = Test-TargetOpen
+
+        if ($isOpen) {
+            if (-not $lastOpen) {
+                Write-ExportMonitorLog "ISSUES_VENTAS.pbip detectado abierto."
+            }
+
+            if (-not (Test-Path -LiteralPath $ExportPath)) {
+                if ($lastFailure -ne "NO_EXPORTER") {
+                    Write-ExportMonitorLog "No se encontro Export-VENTAS_ISSUES.ps1."
+                    $lastFailure = "NO_EXPORTER"
+                }
+            } else {
+                $beforeHash = Get-ContentHash -Path $JsonPath
+
+                try {
+                    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ExportPath *> $null
+                    $exitCode = $LASTEXITCODE
+                } catch {
+                    $exitCode = 99
+                }
+
+                if ($exitCode -eq 0) {
+                    $afterHash = Get-ContentHash -Path $JsonPath
+
+                    if ($afterHash -and $afterHash -ne $beforeHash) {
+                        Write-ExportMonitorLog "Datos cambiaron. JSON y dashboard regenerados."
+                    } elseif (-not $beforeHash -and $afterHash) {
+                        Write-ExportMonitorLog "Snapshot inicial generado."
+                    }
+
+                    if ($lastFailure) {
+                        Write-ExportMonitorLog "Exportador recuperado correctamente."
+                    }
+                    $lastFailure = $null
+                } else {
+                    $failure = "EXIT_$exitCode"
+                    if ($failure -ne $lastFailure) {
+                        Write-ExportMonitorLog "Exportador devolvio codigo $exitCode. Se reintentara automaticamente."
+                        $lastFailure = $failure
+                    }
+                }
+            }
+        } elseif ($lastOpen) {
+            Write-ExportMonitorLog "ISSUES_VENTAS.pbip cerrado. Exportacion en pausa."
+        }
+
+        $lastOpen = $isOpen
+        Start-Sleep -Seconds $IntervalSeconds
+    }
+} catch {
+    Write-ExportMonitorLog "Monitor detenido por error: $($_.Exception.Message)"
+} finally {
+    Remove-Item -LiteralPath $PidPath -Force -ErrorAction SilentlyContinue
+    if ($mutex) {
+        try { $mutex.ReleaseMutex() } catch {}
+        $mutex.Dispose()
+    }
+}

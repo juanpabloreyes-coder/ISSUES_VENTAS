@@ -239,6 +239,14 @@ table VENTAS_ISSUES
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'ACC Disciplina'
+		dataType: string
+		lineageTag: 6929a2cf-5132-4eb6-9eb3-197d3c5d1382
+		summarizeBy: none
+		sourceColumn: ACC Disciplina
+
+		annotation SummarizationSetBy = Automatic
+
 	column ProyectoConcurso
 		dataType: string
 		lineageTag: b6449560-4dcd-4e9b-8977-7b3b6ea2473f
@@ -256,7 +264,6 @@ table VENTAS_ISSUES
 				    VENTASNormalizeUrn = (u as any) as nullable text =>
 				        let s = try Text.From(u) otherwise null, id = if s <> null and Text.Contains(s, "urn:adsk.wipprod:fs.file:vf.") then try Text.BeforeDelimiter(Text.AfterDelimiter(s, "urn:adsk.wipprod:fs.file:vf."), "?") otherwise null else null
 				        in if id <> null then "urn:adsk.wipprod:dm.lineage:" & id else s,
-				    VENTASNormalizeName = (valor as any) as text => 				        let 				            Limpio = try Text.Trim(Text.Clean(Text.From(valor))) otherwise "", 				            Mayusculas = Text.Upper(Limpio), 				            SinDiacriticos = List.Accumulate({{"Á", "A"}, {"É", "E"}, {"Í", "I"}, {"Ó", "O"}, {"Ú", "U"}, {"Ü", "U"}}, Mayusculas, (estado, par) => Text.Replace(estado, par{0}, par{1})) 				        in 				            SinDiacriticos,
 				    VENTASIssues0 = Table.SelectRows(issues_issues, each [issue_id] <> null and Text.Trim(Text.From([issue_id])) <> "" and ([deleted_at] = null or Text.Trim(Text.From([deleted_at])) = "")),
 				    VENTASTypes = Table.Distinct(Table.SelectColumns(issues_issue_types, {"issue_type_id", "issue_type"}), {"issue_type_id"}),
 				    VENTASSubtypes = Table.Distinct(Table.SelectColumns(issues_issue_subtypes, {"issue_subtype_id", "issue_subtype"}), {"issue_subtype_id"}),
@@ -364,7 +371,7 @@ table VENTAS_ISSUES
 				            else if Text.Contains(Archivo, "PLO") or Text.Contains(Archivo, "PLU") then "PLOMERIA"
 				            else "SIN DISCIPLINA",
 				        type text),
-				    VENTASTeamKey = Table.AddColumn(VENTASDiscipline, "__IntegranteKey", each VENTASNormalizeName([Assigned to]), type text),
+				    VENTASTeamKey = Table.AddColumn(VENTASDiscipline, "__IntegranteKey", each let n = try Text.Trim(Text.Clean(Text.From([Assigned to]))) otherwise "" in Text.Upper(n), type text),
 				    VENTASTeamJoin = Table.NestedJoin(VENTASTeamKey, {"__IntegranteKey"}, EquiposIntegrantesVENTAS, {"IntegranteKey"}, "__team", JoinKind.LeftOuter),
 				    VENTASTeamExpanded = Table.ExpandTableColumn(VENTASTeamJoin, "__team", {"Equipo"}, {"__EquipoExcel"}),
 				    VENTASTeam = Table.AddColumn(VENTASTeamExpanded, "Equipo", each let e = try Text.Trim(Text.From([__EquipoExcel])) otherwise "" in if e = "" then "SIN EQUIPO" else e, type text),
@@ -376,13 +383,9 @@ table VENTAS_ISSUES
 				    VENTASSelected = Table.SelectColumns(VENTASFiltered, {"ID", "Title", "Status", "Category", "Type", "Description", "Assigned to", "Company", "Watchers", "Created by", "Created on", "Due date", "Start date", "Location", "Location details", "Placement", "Root cause", "Published", "Updated by", "Updated on", "Closed by", "Closed at", "Comments", "Disciplina", "Proyecto", "Equipo", "ACC Disciplina", "ProyectoConcurso"}),
 				    VENTASTyped = Table.TransformColumnTypes(VENTASSelected, {{"ID", type text}, {"Title", type text}, {"Status", type text}, {"Category", type text}, {"Type", type text}, {"Description", type text}, {"Assigned to", type text}, {"Company", type text}, {"Watchers", type text}, {"Created by", type text}, {"Created on", type datetime}, {"Due date", type datetime}, {"Start date", type datetime}, {"Location", type text}, {"Location details", type text}, {"Placement", type text}, {"Root cause", type text}, {"Published", type text}, {"Updated by", type text}, {"Updated on", type datetime}, {"Closed by", type text}, {"Closed at", type datetime}, {"Comments", type text}, {"Disciplina", type text}, {"Proyecto", type text}, {"Equipo", type text}, {"ACC Disciplina", type text}, {"ProyectoConcurso", type text}}, "es-MX"),
 				
-				    VENTASFinal = VENTASTyped,
-				    #"Sorted Rows" = Table.Sort(VENTASFinal,{{"Created on", Order.Descending}}),
-				    #"Filtered Rows" = Table.SelectRows(#"Sorted Rows", each [Equipo] <> null and [Equipo] <> ""),
-				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each [Placement] <> "Sin archivo asociado"),
-				    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows1",{"ACC Disciplina"})
+				    VENTASFinal = VENTASTyped
 				in
-				    #"Removed Columns"
+				    VENTASFinal
 
 	annotation PBI_NavigationStepName = Navigation
 

@@ -11,14 +11,9 @@ queryGroup VENTAS
 
 	annotation PBI_QueryGroupOrder = 0
 
-/// Errors in queries that were loaded on 14/08/2026 11:15:59 a. m..
-queryGroup 'Query Errors - 14/08/2026 11:15:59 a  m'
-
-	annotation PBI_QueryGroupOrder = 1
-
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["activities_issues_activities","activities_issues_changes","issues_checklist_mappings","issues_comments","issues_custom_attributes","issues_custom_attribute_list_values","issues_issue_subtypes","issues_issue_types","issues_issues","issues_custom_attributes_mappings","issues_placements","admin_users","DimProyectoConcurso","issues_viewables","DimArchivoLocal","EquiposIntegrantesVENTAS","VENTAS_ISSUES","Errors in VENTAS_ISSUES"]
+annotation PBI_QueryOrder = ["activities_issues_activities","activities_issues_changes","issues_checklist_mappings","issues_comments","issues_custom_attributes","issues_custom_attribute_list_values","issues_issue_subtypes","issues_issue_types","issues_issues","issues_custom_attributes_mappings","issues_placements","admin_users","DimProyectoConcurso","issues_viewables","DimArchivoLocal","EquiposIntegrantesVENTAS","VENTAS_ISSUES"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
