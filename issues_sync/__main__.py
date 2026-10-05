@@ -50,7 +50,7 @@ def escribir(filas, avisos, cfg):
     try:
         prev = json.loads(json_path.read_text(encoding="utf-8-sig"))
         if (prev.get("source") == FUENTE and prev.get("rows") == filas and "avisos" not in prev
-                and html_path.exists()):
+                and html_path.exists() and html_path.stat().st_mtime >= plantilla.stat().st_mtime):
             return f"SIN CAMBIOS: {len(filas)} issues. Se conservan el JSON y el HTML existentes."
     except Exception:
         pass
